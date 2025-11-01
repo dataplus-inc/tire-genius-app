@@ -92,11 +92,14 @@ AS $$
   )
 $$;
 
--- RLS Policies for quotes table
--- Anyone can create a quote (for anonymous submissions)
-CREATE POLICY "Anyone can create quotes"
+-- Drop the existing policy
+DROP POLICY IF EXISTS "Anyone can create quotes" ON public.quotes;
+
+-- Create a new policy that explicitly allows anonymous inserts
+CREATE POLICY "Enable insert for anonymous users"
   ON public.quotes
   FOR INSERT
+  TO anon, authenticated
   WITH CHECK (true);
 
 -- Admins can view all quotes
