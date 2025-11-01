@@ -84,13 +84,17 @@ const QuoteRequest = () => {
           preferred_contact_method: data.preferredContact,
           best_contact_time: data.bestTime || null,
           additional_notes: data.notes || null,
+          user_id: null, // Explicitly set to null for anonymous submissions
         })
         .select()
         .single();
 
       if (quoteError) {
         console.error('Error saving quote:', quoteError);
-        throw new Error('Failed to save quote request');
+        console.error('Error details:', JSON.stringify(quoteError, null, 2));
+        console.error('Error code:', quoteError.code);
+        console.error('Error hint:', quoteError.hint);
+        throw new Error(`Failed to save quote request: ${quoteError.message || 'Unknown error'}`);
       }
 
       console.log('Quote saved successfully:', quoteData);
