@@ -8,6 +8,8 @@ import VehicleFinder from "./pages/VehicleFinder";
 import TireResults from "./pages/TireResults";
 import QuoteRequest from "./pages/QuoteRequest";
 import Confirmation from "./pages/Confirmation";
+import Auth from "./pages/Auth";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/results" element={<TireResults />} />
           <Route path="/quote" element={<QuoteRequest />} />
           <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { Car, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import type { VehicleData } from "./VehicleFinder";
 
 const quoteFormSchema = z.object({
@@ -60,30 +61,86 @@ const QuoteRequest = () => {
   const onSubmit = async (data: QuoteFormData) => {
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Generate reference number
+      const referenceNumber = `TS-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
+      
+      // Save quote to database
+      const { data: quoteData, error: quoteError } = await supabase
+        .from('quotes')
+        .insert({
+          reference_number: referenceNumber,
+          customer_name: data.fullName,
+          customer_email: data.email,
+          customer_phone: data.phone,
+          zip_code: data.zipCode,
+          vehicle_year: parseInt(vehicleData.year),
+          vehicle_make: vehicleData.make,
+          vehicle_model: vehicleData.model,
+          vehicle_trim: vehicleData.trim,
+          tire_size: tireSize,
+          quantity: data.quantity,
+          installation_required: data.installation,
+          preferred_contact_method: data.preferredContact,
+          best_contact_time: data.bestTime || null,
+          additional_notes: data.notes || null,
+        })
+        .select()
+        .single();
 
-    // Generate reference number
-    const referenceNumber = `TS-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
-    
-    // Store quote data
-    const quoteData = {
-      ...data,
-      vehicleData,
-      tireSize,
-      referenceNumber,
-      createdAt: new Date().toISOString(),
-    };
-    
-    localStorage.setItem("lastQuote", JSON.stringify(quoteData));
-    
-    toast({
-      title: "Quote Request Submitted!",
-      description: `Reference: ${referenceNumber}`,
-    });
-    
-    setIsSubmitting(false);
-    navigate("/confirmation", { state: { quoteData } });
+      if (quoteError) {
+        console.error('Error saving quote:', quoteError);
+        throw new Error('Failed to save quote request');
+      }
+
+      console.log('Quote saved successfully:', quoteData);
+
+      // Send confirmation email
+      const { error: emailError } = await supabase.functions.invoke('send-quote-email', {
+        body: {
+          customerName: data.fullName,
+          customerEmail: data.email,
+          referenceNumber,
+          vehicleYear: parseInt(vehicleData.year),
+          vehicleMake: vehicleData.make,
+          vehicleModel: vehicleData.model,
+          vehicleTrim: vehicleData.trim,
+          tireSize,
+          quantity: data.quantity,
+        },
+      });
+
+      if (emailError) {
+        console.error('Error sending email:', emailError);
+        // Don't fail the whole operation if email fails
+      }
+
+      const completeQuoteData = {
+        ...data,
+        vehicleData,
+        tireSize,
+        referenceNumber,
+        createdAt: new Date().toISOString(),
+      };
+      
+      localStorage.setItem("lastQuote", JSON.stringify(completeQuoteData));
+      
+      toast({
+        title: "Quote Request Submitted!",
+        description: `Reference: ${referenceNumber}`,
+      });
+      
+      navigate("/confirmation", { state: { quoteData: completeQuoteData } });
+    } catch (error: any) {
+      console.error('Error submitting quote:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit quote request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!vehicleData || !tireSize) {

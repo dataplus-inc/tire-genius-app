@@ -19,6 +19,7 @@ const Index = () => {
             <a href="#finder" className="text-sm font-medium hover:text-accent transition-colors">Find Your Tires</a>
             <a href="#how-it-works" className="text-sm font-medium hover:text-accent transition-colors">How It Works</a>
             <a href="#contact" className="text-sm font-medium hover:text-accent transition-colors">Contact</a>
+            <Link to="/auth" className="text-sm font-medium hover:text-accent transition-colors">Admin Login</Link>
           </div>
         </div>
       </nav>
