@@ -9,12 +9,7 @@ const Index = () => {
       {/* Navigation */}
       <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
-              T
-            </div>
-            <span className="text-xl font-bold"> Wheels & Deals Auto & Services </span>
-          </div>
+          <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12" />
           <div className="hidden md:flex items-center gap-6">
             <a href="#finder" className="text-sm font-medium hover:text-accent transition-colors">Find Your Tires</a>
             <a href="#how-it-works" className="text-sm font-medium hover:text-accent transition-colors">How It Works</a>
@@ -168,12 +163,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
-                  T
-                </div>
-                <span className="text-xl font-bold">Wheels & Deals Auto & Services</span>
-              </div>
+              <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12 mb-4" />
               <p className="text-primary-foreground/80">
                 Your trusted partner for professional tire services and expert recommendations.
               </p>

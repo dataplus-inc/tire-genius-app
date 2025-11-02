@@ -75,10 +75,7 @@ const VehicleFinder = () => {
       <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
-              T
-            </div>
-            <span className="text-xl font-bold">Wheels & Deals Auto & Services</span>
+            <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12" />
           </Link>
         </div>
       </nav>
