@@ -181,8 +181,8 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4">Contact</h3>
               <div className="space-y-2 text-primary-foreground/80">
-                <p>Email: info@tireshoppro.com</p>
-                <p>Phone: (614) 879-9219</p>
+                <p>Email: info@wheelsdealsauto.com</p>
+                <p>Phone: (614) 879-9212</p>
                 <p>Address: 227 E Main St, West Jefferson, OH 43162</p>
                 <p>Hours: Mon-Sat 9AM-7PM</p>
               </div>

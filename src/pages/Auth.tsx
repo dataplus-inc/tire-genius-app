@@ -186,7 +186,7 @@ const Auth = () => {
                       id="login-email"
                       type="email"
                       {...loginForm.register("email")}
-                      placeholder="admin@tireshoppro.com"
+                      placeholder="admin@wheelsdealsauto.com"
                     />
                     {loginForm.formState.errors.email && (
                       <p className="text-sm text-destructive mt-1">
@@ -244,7 +244,7 @@ const Auth = () => {
                       id="signup-email"
                       type="email"
                       {...signupForm.register("email")}
-                      placeholder="admin@tireshoppro.com"
+                      placeholder="admin@wheelsdealsauto.com"
                     />
                     {signupForm.formState.errors.email && (
                       <p className="text-sm text-destructive mt-1">

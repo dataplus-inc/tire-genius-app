@@ -119,7 +119,7 @@ const handler = async (req: Request): Promise<Response> => {
                 
                 <p style="margin-top: 30px;">
                   <strong>Questions?</strong><br/>
-                  Contact us at info@tireshoppro.com or call (555) 123-4567
+                  Contact us at info@wheelsdealsauto.com or call (614) 879-9212
                 </p>
               </div>
               
@@ -174,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
                 </div>
                 
                 <p style="text-align: center; margin-top: 30px;">
-                  <a href="https://tireshoppro.com/admin/quotes" style="background: #ff6b35; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block;">View in Dashboard</a>
+                  <a href="https://wheelsdealsauto.com/admin/quotes" style="background: #ff6b35; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block;">View in Dashboard</a>
                 </p>
               </div>
             </div>
