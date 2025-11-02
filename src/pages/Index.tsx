@@ -13,7 +13,7 @@ const Index = () => {
             <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
               T
             </div>
-            <span className="text-xl font-bold">Wheels & Deals Auto & Services Pro</span>
+            <span className="text-xl font-bold"> Wheels & Deals Auto & Services </span>
           </div>
           <div className="hidden md:flex items-center gap-6">
             <a href="#finder" className="text-sm font-medium hover:text-accent transition-colors">Find Your Tires</a>
@@ -107,7 +107,7 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Why Choose TireShop Pro?
+                Why Choose Wheels & Deals?
               </h2>
               <div className="space-y-4">
                 <div className="flex gap-4">
