@@ -175,7 +175,7 @@ const AdminDashboard = () => {
             <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
               T
             </div>
-            <span className="text-xl font-bold">TireShop Pro</span>
+            <span className="text-xl font-bold">Wheels & Deals Auto & Services</span>
           </Link>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">
