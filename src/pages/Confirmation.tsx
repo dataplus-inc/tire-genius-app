@@ -145,7 +145,7 @@ const Confirmation = () => {
           <Card className="p-6 mt-6 bg-muted/30">
             <p className="text-sm text-center text-muted-foreground">
               Questions? Contact us at <span className="font-medium">info@tireshoppro.com</span> or call{" "}
-              <span className="font-medium">(555) 123-4567</span>
+              <span className="font-medium">(614) 879-9212</span>
             </p>
           </Card>
         </div>
