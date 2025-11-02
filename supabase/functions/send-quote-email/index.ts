@@ -138,7 +138,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Also send notification to admin
     const adminEmailResponse = await resend.emails.send({
       from: "Wheels & Deals Auto & Services <onboarding@resend.dev>",
-      to: ["admin@tireshoppro.com"], // Update with actual admin email
+      to: ["ward.dataplus@gmail.com"], // Update with actual admin email
       subject: `New Quote Request - ${referenceNumber}`,
       html: `
         <!DOCTYPE html>
