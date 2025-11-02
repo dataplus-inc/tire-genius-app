@@ -43,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending quote confirmation email to:", customerEmail);
 
     const emailResponse = await resend.emails.send({
-      from: "TireShop Pro <onboarding@resend.dev>",
+      from: "Wheels & Deals Auto & Services <onboarding@resend.dev>",
       to: [customerEmail],
       subject: `Quote Request Received - ${referenceNumber}`,
       html: `
@@ -73,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
             <div class="container">
               <div class="header">
                 <div class="logo">T</div>
-                <h1 style="margin: 0; font-size: 28px;">TireShop Pro</h1>
+                <h1 style="margin: 0; font-size: 28px;">Wheels & Deals Auto & Services</h1>
                 <p style="margin: 10px 0 0 0; opacity: 0.9;">Quote Request Confirmed</p>
               </div>
               
@@ -124,7 +124,7 @@ const handler = async (req: Request): Promise<Response> => {
               </div>
               
               <div class="footer">
-                <p>© 2025 TireShop Pro. All rights reserved.</p>
+                <p>© 2025 Wheels & Deals Auto & Services. All rights reserved.</p>
                 <p>You're receiving this email because you requested a quote on our website.</p>
               </div>
             </div>
@@ -137,7 +137,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Also send notification to admin
     const adminEmailResponse = await resend.emails.send({
-      from: "TireShop Pro <onboarding@resend.dev>",
+      from: "Wheels & Deals Auto & Services <onboarding@resend.dev>",
       to: ["admin@tireshoppro.com"], // Update with actual admin email
       subject: `New Quote Request - ${referenceNumber}`,
       html: `
