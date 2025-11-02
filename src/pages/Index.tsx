@@ -7,87 +7,97 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12" />
+      <nav className="border-b border-border bg-card sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-14" />
+            <div className="hidden sm:block">
+              <div className="text-xl font-bold text-foreground">Wheels & Deals</div>
+              <div className="text-xs text-muted-foreground">AUTO & SERVICES</div>
+            </div>
+          </div>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#finder" className="text-sm font-medium hover:text-accent transition-colors">Find Your Tires</a>
-            <a href="#how-it-works" className="text-sm font-medium hover:text-accent transition-colors">How It Works</a>
-            <a href="#contact" className="text-sm font-medium hover:text-accent transition-colors">Contact</a>
-            <Link to="/auth" className="text-sm font-medium hover:text-accent transition-colors">Admin Login</Link>
+            <a href="#finder" className="text-sm font-semibold hover:text-accent transition-colors">TIRES</a>
+            <a href="#how-it-works" className="text-sm font-semibold hover:text-accent transition-colors">HOW IT WORKS</a>
+            <a href="#contact" className="text-sm font-semibold hover:text-accent transition-colors">CONTACT</a>
+            <Link to="/auth" className="text-sm font-semibold hover:text-accent transition-colors">ADMIN</Link>
           </div>
         </div>
       </nav>
 
+      {/* Promo Banner */}
+      <section className="bg-gradient-promo text-white py-3">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm md:text-base font-bold">
+            🔥 SPECIAL OFFER: Get Expert Tire Installation & Free Quote Today! 
+          </p>
+        </div>
+      </section>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-95" />
+      <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
             alt="Professional tire display" 
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="relative container mx-auto px-4 py-24 md:py-32">
+        <div className="relative container mx-auto px-4 py-20 md:py-28">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">
-              Find Your Perfect Tires in{" "}
-              <span className="text-accent">Seconds</span>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-primary-foreground mb-6 leading-tight">
+              FIND YOUR PERFECT TIRES IN{" "}
+              <span className="text-accent">SECONDS</span>
             </h1>
-            <p className="text-xl text-primary-foreground/90 mb-8 leading-relaxed">
-              Professional tire recommendations based on your vehicle's exact specifications. 
-              Get a custom quote instantly with our smart tire finder.
+            <p className="text-xl md:text-2xl text-primary-foreground/95 mb-8 leading-relaxed font-medium">
+              Expert recommendations • Exact specifications • Fast quotes
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/finder">
-                <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8 py-6">
                   <Search className="mr-2" />
-                  Find Your Tires
+                  FIND YOUR TIRES
                   <ArrowRight className="ml-2" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                Learn More
-              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-muted/30">
+      <section id="how-it-works" className="py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold mb-3 uppercase">How It Works</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Getting the right tires for your vehicle has never been easier
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl mb-4">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="bg-card rounded-lg p-8 shadow-card border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-3">Select Your Vehicle</h3>
+              <h3 className="text-xl font-bold mb-3 uppercase">Select Your Vehicle</h3>
               <p className="text-muted-foreground">
                 Choose your vehicle's year, make, model, and trim to get exact tire specifications.
               </p>
             </div>
-            <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl mb-4">
+            <div className="bg-card rounded-lg p-8 shadow-card border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3">View Tire Options</h3>
+              <h3 className="text-xl font-bold mb-3 uppercase">View Tire Options</h3>
               <p className="text-muted-foreground">
                 See your tire size with detailed breakdown and browse recommended tire options.
               </p>
             </div>
-            <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl mb-4">
+            <div className="bg-card rounded-lg p-8 shadow-card border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 3
               </div>
-              <h3 className="text-xl font-semibold mb-3">Request a Quote</h3>
+              <h3 className="text-xl font-bold mb-3 uppercase">Request a Quote</h3>
               <p className="text-muted-foreground">
                 Submit your info and get a personalized quote within 2 business hours.
               </p>
@@ -97,36 +107,36 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-20">
+      <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 uppercase">
                 Why Choose Wheels & Deals?
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="flex gap-4">
-                  <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Exact Specifications</h3>
+                    <h3 className="font-bold mb-1 text-lg uppercase">Exact Specifications</h3>
                     <p className="text-muted-foreground">
                       Get tire sizes that perfectly match your vehicle's requirements
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Expert Recommendations</h3>
+                    <h3 className="font-bold mb-1 text-lg uppercase">Expert Recommendations</h3>
                     <p className="text-muted-foreground">
                       Curated tire options across all price ranges and seasons
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <Clock className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <Clock className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Fast Response</h3>
+                    <h3 className="font-bold mb-1 text-lg uppercase">Fast Response</h3>
                     <p className="text-muted-foreground">
                       Get your personalized quote within 2 business hours
                     </p>
@@ -134,25 +144,23 @@ const Index = () => {
                 </div>
               </div>
               <Link to="/finder">
-                <Button variant="accent" size="lg" className="mt-8">
-                  Get Started Now
+                <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 font-bold text-lg px-8">
+                  GET STARTED NOW
                   <ArrowRight className="ml-2" />
                 </Button>
               </Link>
             </div>
-            <div className="bg-gradient-hero rounded-2xl p-8 shadow-elevated">
-              <div className="bg-card/90 backdrop-blur-sm rounded-xl p-6">
-                <h3 className="text-2xl font-bold mb-4">Quick Quote Request</h3>
-                <p className="text-muted-foreground mb-6">
-                  Start by selecting your vehicle to find the perfect tires
-                </p>
-                <Link to="/finder">
-                  <Button variant="hero" className="w-full" size="lg">
-                    <Search className="mr-2" />
-                    Find Your Tires
-                  </Button>
-                </Link>
-              </div>
+            <div className="bg-card rounded-xl p-8 shadow-elevated border-2 border-accent">
+              <h3 className="text-3xl font-bold mb-4 uppercase">Quick Quote Request</h3>
+              <p className="text-muted-foreground mb-6 text-lg">
+                Start by selecting your vehicle to find the perfect tires
+              </p>
+              <Link to="/finder">
+                <Button className="w-full bg-accent hover:bg-accent/90 font-bold text-lg py-6" size="lg">
+                  <Search className="mr-2" />
+                  FIND YOUR TIRES
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -163,13 +171,19 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12 mb-4" />
+              <div className="flex items-center gap-3 mb-4">
+                <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-14" />
+                <div>
+                  <div className="text-xl font-bold">Wheels & Deals</div>
+                  <div className="text-xs text-primary-foreground/80">AUTO & SERVICES</div>
+                </div>
+              </div>
               <p className="text-primary-foreground/80">
                 Your trusted partner for professional tire services and expert recommendations.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
+              <h3 className="font-bold mb-4 uppercase text-lg">Contact</h3>
               <div className="space-y-2 text-primary-foreground/80">
                 <p>Email: info@wheelsdealsauto.com</p>
                 <p>Phone: (614) 879-9212</p>
@@ -178,15 +192,15 @@ const Index = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Quick Links</h3>
+              <h3 className="font-bold mb-4 uppercase text-lg">Quick Links</h3>
               <div className="space-y-2">
-                <Link to="/finder" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+                <Link to="/finder" className="block text-primary-foreground/80 hover:text-accent transition-colors font-semibold">
                   Tire Finder
                 </Link>
-                <a href="#how-it-works" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="#how-it-works" className="block text-primary-foreground/80 hover:text-accent transition-colors font-semibold">
                   How It Works
                 </a>
-                <a href="#contact" className="block text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="#contact" className="block text-primary-foreground/80 hover:text-accent transition-colors font-semibold">
                   Contact Us
                 </a>
               </div>
