@@ -96,7 +96,6 @@ const QuoteRequest = () => {
         console.error('Error hint:', quoteError.hint);
         throw new Error(`Failed to save quote request: ${quoteError.message || 'Unknown error'}`);
       }
-
       console.log('Quote saved successfully:', quoteData);
 
       // Send confirmation email
