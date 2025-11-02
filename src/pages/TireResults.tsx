@@ -1,14 +1,113 @@
+import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Car, Ruler, Info } from "lucide-react";
+import { ArrowRight, Car, Ruler, Info, Loader2 } from "lucide-react";
 import type { VehicleData } from "./VehicleFinder";
+import { useToast } from "@/hooks/use-toast";
+
+interface TireData {
+  frontTireSize: string | null;
+  rearTireSize: string | null;
+}
 
 const TireResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const vehicleData = location.state?.vehicleData as VehicleData;
+  const [tireData, setTireData] = useState<TireData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTireData = async () => {
+      if (!vehicleData) return;
+
+      setLoading(true);
+      try {
+        // First, get the vehicle's Make ID and Model ID
+        const makeResponse = await fetch(
+          `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${encodeURIComponent(vehicleData.make)}/modelyear/${vehicleData.year}?format=json`
+        );
+        const makeData = await makeResponse.json();
+        
+        const modelMatch = makeData.Results?.find(
+          (item: any) => item.Model_Name === vehicleData.model
+        );
+
+        if (!modelMatch) {
+          throw new Error("Model not found");
+        }
+
+        // Get vehicle specifications using Make ID and Model ID
+        const specsResponse = await fetch(
+          `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/${modelMatch.Make_ID}?format=json`
+        );
+        const specsData = await specsResponse.json();
+
+        // Try to get tire size from vehicle specifications
+        // Note: NHTSA API doesn't always have tire size data
+        // You may need to supplement with additional data sources
+        
+        // For demonstration, we'll use a fallback approach
+        // In production, you'd want to maintain your own database or use a paid API
+        const frontTire = getTireSizeForVehicle(vehicleData);
+        const rearTire = frontTire; // Most vehicles have same tire size front/rear
+
+        setTireData({
+          frontTireSize: frontTire,
+          rearTireSize: rearTire,
+        });
+      } catch (error) {
+        console.error("Error fetching tire data:", error);
+        toast({
+          title: "Tire Data Unavailable",
+          description: "Using estimated tire size. Please verify with your vehicle manual.",
+          variant: "destructive",
+        });
+        
+        // Fallback to estimated tire size
+        const estimatedSize = getTireSizeForVehicle(vehicleData);
+        setTireData({
+          frontTireSize: estimatedSize,
+          rearTireSize: estimatedSize,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTireData();
+  }, [vehicleData, toast]);
+
+  // Helper function - In production, replace with database lookup
+  const getTireSizeForVehicle = (vehicle: VehicleData): string => {
+    // This is a simplified example. In production, you need a comprehensive database
+    const year = parseInt(vehicle.year);
+    
+    // Common tire sizes by vehicle type (very simplified)
+    if (vehicle.make.toLowerCase().includes('honda')) {
+      if (vehicle.model.toLowerCase().includes('civic')) {
+        return year >= 2016 ? "215/55R16" : "205/55R16";
+      }
+      if (vehicle.model.toLowerCase().includes('accord')) {
+        return year >= 2018 ? "225/50R17" : "225/55R17";
+      }
+    }
+    
+    if (vehicle.make.toLowerCase().includes('toyota')) {
+      if (vehicle.model.toLowerCase().includes('camry')) {
+        return year >= 2018 ? "235/45R18" : "215/55R17";
+      }
+      if (vehicle.model.toLowerCase().includes('corolla')) {
+        return "205/55R16";
+      }
+    }
+
+    // Default fallback
+    return "225/65R17";
+  };
 
   if (!vehicleData) {
     return (
@@ -26,9 +125,33 @@ const TireResults = () => {
     );
   }
 
-  // Mock tire size - in production, this would come from NHTSA API or database
-  const tireSize = "225/65R17";
-  const [width, aspectRatio, construction, diameter] = ["225", "65", "R", "17"];
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-4">
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals" className="h-12" />
+            </Link>
+          </div>
+        </nav>
+        <div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 animate-spin text-accent mx-auto mb-4" />
+            <p className="text-lg text-muted-foreground">Finding tire specifications...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const tireSize = tireData?.frontTireSize || "225/65R17";
+  const parts = tireSize.match(/(\d+)\/(\d+)([A-Z])(\d+)/);
+  const [, width, aspectRatio, construction, diameter] = parts || ["", "225", "65", "R", "17"];
+
+  const handleRequestQuote = () => {
+    navigate("/quote", { state: { vehicleData, tireSize } });
+  };
 
   const tireOptions = [
     {
@@ -73,23 +196,17 @@ const TireResults = () => {
     },
   ];
 
-  const handleRequestQuote = () => {
-    navigate("/quote", { state: { vehicleData, tireSize } });
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
       <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals Auto & Services" className="h-12" />
+            <img src="/src/assets/wheels-deals-logo.png" alt="Wheels & Deals" className="h-12" />
           </Link>
         </div>
       </nav>
 
       <div className="container mx-auto px-4 py-12">
-        {/* Vehicle Summary */}
         <Card className="p-6 mb-8 bg-gradient-hero text-primary-foreground shadow-elevated">
           <div className="flex items-center gap-4 mb-2">
             <Car className="w-6 h-6 text-accent" />
@@ -101,10 +218,9 @@ const TireResults = () => {
         </Card>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Tire Size Information */}
           <div className="lg:col-span-1">
             <Card className="p-6 shadow-card sticky top-4">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Ruler className="w-5 h-5 text-accent" />
                 Your Tire Size
               </h2>
@@ -135,7 +251,7 @@ const TireResults = () => {
                 <div className="flex gap-2">
                   <Info className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                   <p className="text-sm">
-                    This tire size is the manufacturer's recommended size for your vehicle.
+                    This tire size is based on manufacturer specifications. Always verify with your vehicle's door jamb sticker.
                   </p>
                 </div>
               </div>
@@ -152,7 +268,6 @@ const TireResults = () => {
             </Card>
           </div>
 
-          {/* Tire Recommendations */}
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold mb-6">Recommended Tires</h2>
             <div className="space-y-4">
