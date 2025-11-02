@@ -31,7 +31,7 @@ const Confirmation = () => {
             <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
               T
             </div>
-            <span className="text-xl font-bold">TireShop Pro</span>
+            <span className="text-xl font-bold">Wheels & Deals Auto & Services</span>
           </Link>
         </div>
       </nav>
@@ -47,7 +47,7 @@ const Confirmation = () => {
               Quote Request Received!
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Thank you for choosing TireShop Pro
+              Thank you for choosing Wheels & Deals Auto & Services
             </p>
 
             <Card className="p-6 bg-muted/30 mb-8">
