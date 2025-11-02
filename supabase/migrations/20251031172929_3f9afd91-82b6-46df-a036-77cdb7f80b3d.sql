@@ -92,33 +92,53 @@ AS $$
   )
 $$;
 
--- Drop the existing policy
+-- Drop ALL existing policies on quotes
 DROP POLICY IF EXISTS "Anyone can create quotes" ON public.quotes;
+DROP POLICY IF EXISTS "Enable insert for anonymous users" ON public.quotes;
+DROP POLICY IF EXISTS "Admins can view all quotes" ON public.quotes;
+DROP POLICY IF EXISTS "Admins can update quotes" ON public.quotes;
+DROP POLICY IF EXISTS "Admins can delete quotes" ON public.quotes;
 
--- Create a new policy that explicitly allows anonymous inserts
-CREATE POLICY "Enable insert for anonymous users"
+-- Recreate the INSERT policy without any role checks
+CREATE POLICY "Allow anonymous quote creation"
   ON public.quotes
   FOR INSERT
-  TO anon, authenticated
+  TO public
   WITH CHECK (true);
 
--- Admins can view all quotes
+-- Recreate admin policies (these won't affect inserts)
 CREATE POLICY "Admins can view all quotes"
   ON public.quotes
   FOR SELECT
-  USING (public.has_role(auth.uid(), 'admin'));
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_roles 
+      WHERE user_id = auth.uid() AND role = 'admin'
+    )
+  );
 
--- Admins can update quotes
 CREATE POLICY "Admins can update quotes"
   ON public.quotes
   FOR UPDATE
-  USING (public.has_role(auth.uid(), 'admin'));
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_roles 
+      WHERE user_id = auth.uid() AND role = 'admin'
+    )
+  );
 
--- Admins can delete quotes
 CREATE POLICY "Admins can delete quotes"
   ON public.quotes
   FOR DELETE
-  USING (public.has_role(auth.uid(), 'admin'));
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.user_roles 
+      WHERE user_id = auth.uid() AND role = 'admin'
+    )
+  );
 
 -- RLS Policies for profiles table
 -- Users can view their own profile
