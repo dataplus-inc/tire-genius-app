@@ -13,7 +13,7 @@ const Index = () => {
             <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
               T
             </div>
-            <span className="text-xl font-bold">TireShop Pro</span>
+            <span className="text-xl font-bold">Wheels & Deals Auto & Services Pro</span>
           </div>
           <div className="hidden md:flex items-center gap-6">
             <a href="#finder" className="text-sm font-medium hover:text-accent transition-colors">Find Your Tires</a>
@@ -172,7 +172,7 @@ const Index = () => {
                 <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center text-accent-foreground font-bold text-xl">
                   T
                 </div>
-                <span className="text-xl font-bold">TireShop Pro</span>
+                <span className="text-xl font-bold">Wheels & Deals Auto & Services</span>
               </div>
               <p className="text-primary-foreground/80">
                 Your trusted partner for professional tire services and expert recommendations.
@@ -182,8 +182,9 @@ const Index = () => {
               <h3 className="font-semibold mb-4">Contact</h3>
               <div className="space-y-2 text-primary-foreground/80">
                 <p>Email: info@tireshoppro.com</p>
-                <p>Phone: (555) 123-4567</p>
-                <p>Hours: Mon-Sat 8AM-6PM</p>
+                <p>Phone: (614) 879-9219</p>
+                <p>Address: 227 E Main St, West Jefferson, OH 43162</p>
+                <p>Hours: Mon-Sat 9AM-7PM</p>
               </div>
             </div>
             <div>
@@ -202,7 +203,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
-            <p>&copy; 2025 TireShop Pro. All rights reserved.</p>
+            <p>&copy; 2025 Wheels & Deals Auto & Services. All rights reserved.</p>
           </div>
         </div>
       </footer>
