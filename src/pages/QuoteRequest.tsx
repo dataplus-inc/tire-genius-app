@@ -66,7 +66,7 @@ const QuoteRequest = () => {
       const referenceNumber = `TS-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
       
       // Save quote to database
-      const { data: quoteData, error: quoteError } = await supabase
+      const { error: quoteError } = await supabase
         .from('quotes')
         .insert({
           reference_number: referenceNumber,
@@ -86,8 +86,7 @@ const QuoteRequest = () => {
           additional_notes: data.notes || null,
           user_id: null, // Explicitly set to null for anonymous submissions
         })
-        .select()
-        .single();
+
 
       if (quoteError) {
         console.error('Error saving quote:', quoteError);
@@ -96,8 +95,8 @@ const QuoteRequest = () => {
         console.error('Error hint:', quoteError.hint);
         throw new Error(`Failed to save quote request: ${quoteError.message || 'Unknown error'}`);
       }
-      console.log('Quote saved successfully:', quoteData);
-
+      console.log('Quote saved successfully with reference:', referenceNumber);
+      
       // Send confirmation email
       const { error: emailError } = await supabase.functions.invoke('send-quote-email', {
         body: {
