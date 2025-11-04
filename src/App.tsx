@@ -10,6 +10,7 @@ import QuoteRequest from "./pages/QuoteRequest";
 import Confirmation from "./pages/Confirmation";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/AdminDashboard";
+import QuoteDetail from "./pages/QuoteDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/quotes/:id" element={<QuoteDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

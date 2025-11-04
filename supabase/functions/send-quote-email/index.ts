@@ -19,6 +19,9 @@ interface QuoteEmailRequest {
   vehicleTrim: string;
   tireSize: string;
   quantity: number;
+  installation?: boolean;
+  wheelAlignment?: boolean;
+  oilChange?: boolean;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -38,9 +41,25 @@ const handler = async (req: Request): Promise<Response> => {
       vehicleTrim,
       tireSize,
       quantity,
+      installation,
+      wheelAlignment,
+      oilChange,
     }: QuoteEmailRequest = await req.json();
 
     console.log("Sending quote confirmation email to:", customerEmail);
+
+    // Build services list
+    const services = [];
+    if (installation) services.push("Tire Installation");
+    if (wheelAlignment) services.push("Wheel Alignment");
+    if (oilChange) services.push("Oil Change");
+
+    const servicesHtml = services.length > 0
+      ? `<div class="detail-row">
+          <span class="detail-label">Requested Services:</span>
+          <span class="detail-value">${services.join(", ")}</span>
+        </div>`
+      : "";
 
     const emailResponse = await resend.emails.send({
       from: "Wheels & Deals Auto & Services <onboarding@resend.dev>",
@@ -101,10 +120,11 @@ const handler = async (req: Request): Promise<Response> => {
                     <span class="detail-label">Tire Size:</span>
                     <span class="detail-value">${tireSize}</span>
                   </div>
-                  <div class="detail-row" style="border-bottom: none;">
+                  <div class="detail-row">
                     <span class="detail-label">Quantity:</span>
                     <span class="detail-value">${quantity} tires</span>
                   </div>
+                  ${servicesHtml}
                 </div>
                 
                 <div class="next-steps">
@@ -170,7 +190,8 @@ const handler = async (req: Request): Promise<Response> => {
                   <h3 style="margin-top: 20px;">Vehicle Details</h3>
                   <div class="detail-row"><strong>Vehicle:</strong> ${vehicleYear} ${vehicleMake} ${vehicleModel} ${vehicleTrim}</div>
                   <div class="detail-row"><strong>Tire Size:</strong> ${tireSize}</div>
-                  <div class="detail-row" style="border-bottom: none;"><strong>Quantity:</strong> ${quantity} tires</div>
+                  <div class="detail-row"><strong>Quantity:</strong> ${quantity} tires</div>
+                  ${services.length > 0 ? `<div class="detail-row" style="border-bottom: none;"><strong>Services:</strong> ${services.join(", ")}</div>` : ''}
                 </div>
                 
                 <p style="text-align: center; margin-top: 30px;">

@@ -82,8 +82,11 @@ export type Database = {
           customer_phone: string
           id: string
           installation_required: boolean
+          oil_change: boolean | null
           preferred_contact_method: Database["public"]["Enums"]["contact_method"]
           quantity: number
+          quote_amount: number | null
+          quote_notes: string | null
           reference_number: string
           status: Database["public"]["Enums"]["quote_status"]
           tire_size: string
@@ -93,6 +96,7 @@ export type Database = {
           vehicle_model: string
           vehicle_trim: string
           vehicle_year: number
+          wheel_alignment: boolean | null
           zip_code: string
         }
         Insert: {
@@ -106,8 +110,11 @@ export type Database = {
           customer_phone: string
           id?: string
           installation_required?: boolean
+          oil_change?: boolean | null
           preferred_contact_method?: Database["public"]["Enums"]["contact_method"]
           quantity?: number
+          quote_amount?: number | null
+          quote_notes?: string | null
           reference_number: string
           status?: Database["public"]["Enums"]["quote_status"]
           tire_size: string
@@ -117,6 +124,7 @@ export type Database = {
           vehicle_model: string
           vehicle_trim: string
           vehicle_year: number
+          wheel_alignment?: boolean | null
           zip_code: string
         }
         Update: {
@@ -130,8 +138,11 @@ export type Database = {
           customer_phone?: string
           id?: string
           installation_required?: boolean
+          oil_change?: boolean | null
           preferred_contact_method?: Database["public"]["Enums"]["contact_method"]
           quantity?: number
+          quote_amount?: number | null
+          quote_notes?: string | null
           reference_number?: string
           status?: Database["public"]["Enums"]["quote_status"]
           tire_size?: string
@@ -141,6 +152,7 @@ export type Database = {
           vehicle_model?: string
           vehicle_trim?: string
           vehicle_year?: number
+          wheel_alignment?: boolean | null
           zip_code?: string
         }
         Relationships: []

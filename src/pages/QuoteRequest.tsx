@@ -24,6 +24,8 @@ const quoteFormSchema = z.object({
   bestTime: z.string().optional(),
   quantity: z.number().min(1).max(8),
   installation: z.boolean(),
+  wheelAlignment: z.boolean(),
+  oilChange: z.boolean(),
   notes: z.string().max(1000, "Notes must be less than 1000 characters").optional(),
   terms: z.boolean().refine((val) => val === true, "You must accept the terms"),
 });
@@ -50,12 +52,16 @@ const QuoteRequest = () => {
     defaultValues: {
       quantity: 4,
       installation: true,
+      wheelAlignment: false,
+      oilChange: false,
       preferredContact: "email",
       terms: false,
     },
   });
 
   const installation = watch("installation");
+  const wheelAlignment = watch("wheelAlignment");
+  const oilChange = watch("oilChange");
   const terms = watch("terms");
 
   const onSubmit = async (data: QuoteFormData) => {
@@ -81,6 +87,8 @@ const QuoteRequest = () => {
           tire_size: tireSize,
           quantity: data.quantity,
           installation_required: data.installation,
+          wheel_alignment: data.wheelAlignment,
+          oil_change: data.oilChange,
           preferred_contact_method: data.preferredContact,
           best_contact_time: data.bestTime || null,
           additional_notes: data.notes || null,
@@ -109,6 +117,9 @@ const QuoteRequest = () => {
           vehicleTrim: vehicleData.trim,
           tireSize,
           quantity: data.quantity,
+          installation: data.installation,
+          wheelAlignment: data.wheelAlignment,
+          oilChange: data.oilChange,
         },
       });
 
@@ -279,15 +290,38 @@ const QuoteRequest = () => {
                       />
                     </div>
 
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="installation"
-                        checked={installation}
-                        onCheckedChange={(checked) => setValue("installation", checked as boolean)}
-                      />
-                      <Label htmlFor="installation" className="font-normal cursor-pointer">
-                        I need installation services
-                      </Label>
+                    <div className="space-y-3">
+                      <Label className="text-base font-semibold">Additional Services</Label>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="installation"
+                          checked={installation}
+                          onCheckedChange={(checked) => setValue("installation", checked as boolean)}
+                        />
+                        <Label htmlFor="installation" className="font-normal cursor-pointer">
+                          Tire Installation
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="wheelAlignment"
+                          checked={wheelAlignment}
+                          onCheckedChange={(checked) => setValue("wheelAlignment", checked as boolean)}
+                        />
+                        <Label htmlFor="wheelAlignment" className="font-normal cursor-pointer">
+                          Wheel Alignment
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="oilChange"
+                          checked={oilChange}
+                          onCheckedChange={(checked) => setValue("oilChange", checked as boolean)}
+                        />
+                        <Label htmlFor="oilChange" className="font-normal cursor-pointer">
+                          Oil Change
+                        </Label>
+                      </div>
                     </div>
 
                     <div>
