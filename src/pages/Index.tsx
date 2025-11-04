@@ -127,11 +127,13 @@ const Index = () => {
               Expert recommendations • Exact specifications • Fast quotes
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-8 py-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                <Search className="w-5 h-5" />
-                FIND YOUR TIRES
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <Link to="/finder">
+                <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8 py-6">
+                  <Search className="mr-2" />
+                  FIND YOUR TIRES
+                  <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
