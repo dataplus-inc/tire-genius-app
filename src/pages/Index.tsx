@@ -15,7 +15,7 @@ const Index = () => {
       icon: Wrench,
       title: "Wheel Alignment",
       description: "Precision alignment service to maximize tire life, improve handling, and ensure optimal fuel efficiency.",
-      image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&h=600&fit=crop"
+      image: "https://globalassets.hunter.com/images/assets/Align-WinAlignLite-Target-SelfCentering-Close.jpg/Zz0wNzA4YmRiNmIwZjgxMWVmOWJiOTYyMThkMTY1YmVmZQ==?quality=90"
     },
     {
       icon: Droplet,
