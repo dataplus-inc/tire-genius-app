@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Search, CheckCircle, Clock, Wrench, Droplet, CircleDot, Disc, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
