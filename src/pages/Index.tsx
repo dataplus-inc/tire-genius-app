@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Search, CheckCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-tires.jpg";
+import { Wrench, Droplet, CircleDot, Disc } from "lucide-react";
 
 const Index = () => {
   return (
@@ -135,6 +136,115 @@ const Index = () => {
         </div>
       </section>
 
+
+      export default function ServicesSection() {
+  const services = [
+    {
+      icon: CircleDot,
+      title: "Tire Installation",
+      description: "Professional tire mounting, balancing, and installation for all vehicle types. Expert service ensuring your safety on the road.",
+      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
+    },
+    {
+      icon: Wrench,
+      title: "Wheel Alignment",
+      description: "Precision alignment service to maximize tire life, improve handling, and ensure optimal fuel efficiency.",
+      image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&h=600&fit=crop"
+    },
+    {
+      icon: Droplet,
+      title: "Oil Change",
+      description: "Quick and thorough oil changes using premium lubricants. Keep your engine running smoothly and efficiently.",
+      image: "https://images.unsplash.com/photo-1632823469621-d1d6259d0ce7?w=800&h=600&fit=crop"
+    },
+    {
+      icon: Disc,
+      title: "Brake Service",
+      description: "Complete brake inspection, pad replacement, and rotor service. Your safety is our top priority.",
+      image: "https://images.unsplash.com/photo-1610221936190-c6cc7ab82236?w=800&h=600&fit=crop"
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-gradient-to-b from-background to-muted/30">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 uppercase">
+            Our Expert Services
+          </h2>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
+            Professional automotive services you can trust. Quality workmanship, competitive pricing, and exceptional customer care.
+          </p>
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={index}
+                className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border hover:border-accent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+              >
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-accent flex items-center justify-center shadow-lg">
+                    <Icon className="w-6 h-6 text-accent-foreground" />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-3 uppercase group-hover:text-accent transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-16">
+          <div className="inline-block bg-card rounded-2xl p-8 shadow-xl border-2 border-accent max-w-2xl">
+            <h3 className="text-2xl md:text-3xl font-bold mb-3 uppercase">
+              Need Service Today?
+            </h3>
+            <p className="text-muted-foreground mb-6 text-lg">
+              Call us or visit our shop for fast, professional service
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:6148799212"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                📞 Call (614) 879-9212
+              </a>
+              <a
+                href="#contact"
+                className="bg-background hover:bg-muted text-foreground font-bold py-3 px-8 rounded-full border-2 border-accent transition-all duration-300 hover:scale-105"
+              >
+                Visit Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
       {/* Features */}
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
