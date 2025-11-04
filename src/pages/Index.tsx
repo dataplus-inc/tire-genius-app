@@ -76,6 +76,13 @@ const Index = () => {
               <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">SERVICES</button>
               <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">HOW IT WORKS</button>
               <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">CONTACT</button>
+              <Link 
+              to="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left"
+              >
+              ADMIN
+            </Link>
             </div>
           </div>
         )}
