@@ -59,6 +59,7 @@ const Index = () => {
             <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">SERVICES</button>
             <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">HOW IT WORKS</button>
             <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">CONTACT</button>
+            <Link to="/auth" className="text-sm font-semibold hover:text-accent transition-colors">ADMIN</Link>
           </div>
           <button 
             className="md:hidden"
