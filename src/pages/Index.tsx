@@ -128,13 +128,14 @@ const Index = () => {
               Expert recommendations • Exact specifications • Fast quotes
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/finder">
-                <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg px-8 py-6">
-                  <Search className="mr-2" />
-                  FIND YOUR TIRES
-                  <ArrowRight className="ml-2" />
-                </Button>
-              </Link>
+            <Link
+              to="/finder"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-8 py-6 rounded-lg transition-colors"
+            >
+              <Search className="mr-2" />
+              FIND YOUR TIRES
+              <ArrowRight className="ml-2" />
+            </Link>
             </div>
           </div>
         </div>
