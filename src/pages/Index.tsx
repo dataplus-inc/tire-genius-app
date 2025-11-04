@@ -21,13 +21,13 @@ const Index = () => {
       icon: Droplet,
       title: "Oil Change",
       description: "Quick and thorough oil changes using premium lubricants. Keep your engine running smoothly and efficiently.",
-      image: "https://images.unsplash.com/photo-1632823469621-d1d6259d0ce7?w=800&h=600&fit=crop"
+      image: "https://www.wyotech.edu/wp-content/uploads/2024/04/how-to-change-your-car-oil-featured-image.jpeg"
     },
     {
       icon: Disc,
       title: "Brake Service",
       description: "Complete brake inspection, pad replacement, and rotor service. Your safety is our top priority.",
-      image: "https://images.unsplash.com/photo-1610221936190-c6cc7ab82236?w=800&h=600&fit=crop"
+      image: "https://www.meineke.com/_next/image/?url=https%3A%2F%2Fimages.ctfassets.net%2Fdkq07unc94tv%2F22yQ5GXhvnsQVhCF92cW4J%2Fa84c205c2533451beab07cdf844fce4d%2Fhow-do-brakes-work.jpg&w=3840&q=75"
     }
   ];
 
