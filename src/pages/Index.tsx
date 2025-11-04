@@ -25,14 +25,43 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Promo Banner */}
-      <section className="bg-gradient-promo text-white py-3">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm md:text-base font-bold">
-            🔥 SPECIAL OFFER: Get Expert Tire Installation & Free Quote Today! 
-          </p>
-        </div>
-      </section>
+{/* Promo Banner */}
+<section className="relative overflow-hidden bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 text-white py-4">
+  {/* Animated background effect */}
+  <div className="absolute inset-0 opacity-20">
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse"></div>
+  </div>
+  
+  <div className="container mx-auto px-4 relative z-10">
+    <div className="flex items-center justify-center gap-3 text-center">
+      {/* Animated fire emoji */}
+      <span className="text-2xl md:text-3xl animate-bounce">🔥</span>
+      
+      <div>
+        <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-orange-100 mb-1">
+          Limited Time Offer
+        </p>
+        <p className="text-base md:text-xl font-bold">
+          Expert Tire Installation + Free Quote Today!
+        </p>
+      </div>
+      
+      <span className="text-2xl md:text-3xl animate-bounce delay-75">🔥</span>
+    </div>
+    
+    {/* Optional CTA button */}
+    <div className="mt-3 flex justify-center">
+      <Link to="/finder">
+        <button className="bg-white text-red-600 px-6 py-2 rounded-full font-bold text-sm md:text-base hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          Get Your Free Quote →
+        </button>
+      </Link>
+    </div>
+  </div>
+  
+  {/* Bottom highlight line */}
+  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-300 to-transparent"></div>
+</section>
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero">
