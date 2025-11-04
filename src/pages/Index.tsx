@@ -9,7 +9,7 @@ const Index = () => {
       icon: CircleDot,
       title: "Tire Installation",
       description: "Professional tire mounting, balancing, and installation for all vehicle types. Expert service ensuring your safety on the road.",
-      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
+      image: "https://www.tirerack.com/images/techCenter/installation/installPackage_hero.png"
     },
     {
       icon: Wrench,
