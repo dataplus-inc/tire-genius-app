@@ -6,10 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { LogOut, Search, Eye, Filter } from "lucide-react";
+import { LogOut, Search, Eye, Filter, CheckCircle, XCircle } from "lucide-react";
 
 interface Quote {
   id: string;
@@ -33,12 +34,28 @@ interface Quote {
   updated_at: string;
 }
 
+interface Appointment {
+  id: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  appointment_date: string;
+  appointment_time: string;
+  services: string[];
+  vehicle_info: string | null;
+  additional_notes: string | null;
+  status: string;
+  admin_notes: string | null;
+  created_at: string;
+}
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -82,9 +99,76 @@ const AdminDashboard = () => {
 
       setIsAdmin(true);
       fetchQuotes();
+      fetchAppointments();
     } catch (error) {
       console.error('Auth error:', error);
       navigate("/auth");
+    }
+  };
+
+  const fetchAppointments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setAppointments(data || []);
+    } catch (error: any) {
+      console.error('Error fetching appointments:', error);
+    }
+  };
+
+  const handleAppointmentStatus = async (appointmentId: string, status: "approved" | "declined", adminNotes?: string) => {
+    try {
+      const appointment = appointments.find(a => a.id === appointmentId);
+      if (!appointment) return;
+
+      const { error: updateError } = await supabase
+        .from('appointments')
+        .update({ 
+          status, 
+          admin_notes: adminNotes || null,
+        })
+        .eq('id', appointmentId);
+
+      if (updateError) throw updateError;
+
+      // Send status email to customer
+      const { error: emailError } = await supabase.functions.invoke("send-appointment-status", {
+        body: {
+          customerName: appointment.customer_name,
+          customerEmail: appointment.customer_email,
+          appointmentDate: new Date(appointment.appointment_date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }),
+          appointmentTime: appointment.appointment_time,
+          services: appointment.services,
+          status,
+          adminNotes,
+        },
+      });
+
+      if (emailError) {
+        console.error("Error sending status email:", emailError);
+      }
+
+      toast({
+        title: "Success",
+        description: `Appointment ${status} and customer notified via email.`,
+      });
+
+      fetchAppointments();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to update appointment status.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -188,13 +272,19 @@ const AdminDashboard = () => {
 
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Quote Management</h1>
+          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
           <p className="text-muted-foreground">
-            Manage and track all customer quote requests
+            Manage quotes and appointments
           </p>
         </div>
 
-        {/* Stats Cards */}
+        <Tabs defaultValue="quotes" className="space-y-8">
+          <TabsList>
+            <TabsTrigger value="quotes">Quotes</TabsTrigger>
+            <TabsTrigger value="appointments">Appointments</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="quotes" className="space-y-6">{/* Stats Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card className="p-6">
             <p className="text-sm text-muted-foreground mb-1">Total Quotes</p>
