@@ -39,11 +39,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Sending appointment notification email");
 
-    // Send email to admin
+    // IMPORTANT: Resend test mode limitation - emails can only be sent to ward.dataplus@gmail.com
+    // To send to other emails, verify a domain at https://resend.com/domains
     const emailResponse = await resend.emails.send({
       from: "Wheels & Deals <onboarding@resend.dev>",
-      to: [customerEmail], // Send to customer's email for testing (Resend limitation)
-      subject: "New Appointment Request",
+      to: ["ward.dataplus@gmail.com"], // Your verified email (Resend limitation in test mode)
+      subject: `New Appointment Request from ${customerName}`,
       html: `
         <h1>New Appointment Request</h1>
         <h2>Customer Information</h2>
