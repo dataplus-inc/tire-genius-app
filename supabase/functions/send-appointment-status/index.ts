@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@4.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,55 +45,64 @@ const handler = async (req: Request): Promise<Response> => {
       ? "Your Appointment is Confirmed!" 
       : "Update on Your Appointment Request";
 
-    const emailResponse = await resend.emails.send({
-      from: "Wheels & Deals <onboarding@resend.dev>",
-      to: [customerEmail],
-      subject: subject,
-      html: `
-        <h1>${isApproved ? "Appointment Confirmed!" : "Appointment Update"}</h1>
-        <p>Dear ${customerName},</p>
-        
-        ${isApproved 
-          ? `<p>Great news! Your appointment has been <strong>confirmed</strong>.</p>` 
-          : `<p>Thank you for your interest. Unfortunately, we are unable to accommodate your appointment request at this time.</p>`
-        }
-        
-        <h2>Appointment Details</h2>
-        <p><strong>Date:</strong> ${appointmentDate}</p>
-        <p><strong>Time:</strong> ${appointmentTime}</p>
-        
-        <h2>Services</h2>
-        <ul>
-          ${services.map(service => `<li>${service}</li>`).join('')}
-        </ul>
-        
-        ${adminNotes ? `
-          <h2>Additional Information</h2>
-          <p>${adminNotes}</p>
-        ` : ''}
-        
-        ${!isApproved && (suggestedDate || suggestedTime) ? `
-          <h2>Alternative Time Slot Available</h2>
-          <p>We'd like to suggest an alternative time that works better for us:</p>
-          ${suggestedDate ? `<p><strong>Suggested Date:</strong> ${new Date(suggestedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>` : ''}
-          ${suggestedTime ? `<p><strong>Suggested Time:</strong> ${suggestedTime}</p>` : ''}
-          <p>Please let us know if this alternative works for you, or feel free to suggest another time.</p>
-        ` : ''}
-        
-        ${isApproved 
-          ? `<p style="margin-top: 20px;">We look forward to seeing you! If you need to make any changes, please contact us as soon as possible.</p>` 
-          : !suggestedDate && !suggestedTime 
-            ? `<p style="margin-top: 20px;">We apologize for any inconvenience. Please feel free to submit another request for a different date and time, or contact us directly for assistance.</p>`
-            : `<p style="margin-top: 20px;">We apologize for any inconvenience and hope the suggested alternative works for you.</p>`
-        }
-        
-        <p>Best regards,<br>Wheels & Deals Team</p>
-      `,
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: "Wheels & Deals <onboarding@resend.dev>",
+        to: [customerEmail],
+        subject: subject,
+        html: `
+          <h1>${isApproved ? "Appointment Confirmed!" : "Appointment Update"}</h1>
+          <p>Dear ${customerName},</p>
+          
+          ${isApproved 
+            ? `<p>Great news! Your appointment has been <strong>confirmed</strong>.</p>` 
+            : `<p>Thank you for your interest. Unfortunately, we are unable to accommodate your appointment request at this time.</p>`
+          }
+          
+          <h2>Appointment Details</h2>
+          <p><strong>Date:</strong> ${appointmentDate}</p>
+          <p><strong>Time:</strong> ${appointmentTime}</p>
+          
+          <h2>Services</h2>
+          <ul>
+            ${services.map(service => `<li>${service}</li>`).join('')}
+          </ul>
+          
+          ${adminNotes ? `
+            <h2>Additional Information</h2>
+            <p>${adminNotes}</p>
+          ` : ''}
+          
+          ${!isApproved && (suggestedDate || suggestedTime) ? `
+            <h2>Alternative Time Slot Available</h2>
+            <p>We'd like to suggest an alternative time that works better for us:</p>
+            ${suggestedDate ? `<p><strong>Suggested Date:</strong> ${new Date(suggestedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>` : ''}
+            ${suggestedTime ? `<p><strong>Suggested Time:</strong> ${suggestedTime}</p>` : ''}
+            <p>Please let us know if this alternative works for you, or feel free to suggest another time.</p>
+          ` : ''}
+          
+          ${isApproved 
+            ? `<p style="margin-top: 20px;">We look forward to seeing you! If you need to make any changes, please contact us as soon as possible.</p>` 
+            : !suggestedDate && !suggestedTime 
+              ? `<p style="margin-top: 20px;">We apologize for any inconvenience. Please feel free to submit another request for a different date and time, or contact us directly for assistance.</p>`
+              : `<p style="margin-top: 20px;">We apologize for any inconvenience and hope the suggested alternative works for you.</p>`
+          }
+          
+          <p>Best regards,<br>Wheels & Deals Team</p>
+        `,
+      }),
     });
 
-    console.log("Appointment status email sent successfully:", emailResponse);
+    const data = await emailResponse.json();
 
-    return new Response(JSON.stringify(emailResponse), {
+    console.log("Appointment status email sent successfully:", data);
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
