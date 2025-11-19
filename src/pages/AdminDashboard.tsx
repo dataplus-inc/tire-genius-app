@@ -284,128 +284,210 @@ const AdminDashboard = () => {
             <TabsTrigger value="appointments">Appointments</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="quotes" className="space-y-6">{/* Stats Cards */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-1">Total Quotes</p>
-            <p className="text-3xl font-bold">{quotes.length}</p>
-          </Card>
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-1">New</p>
-            <p className="text-3xl font-bold text-accent">
-              {quotes.filter(q => q.status === 'new').length}
-            </p>
-          </Card>
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-1">In Progress</p>
-            <p className="text-3xl font-bold">
-              {quotes.filter(q => ['contacted', 'quoted'].includes(q.status)).length}
-            </p>
-          </Card>
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-1">Completed</p>
-            <p className="text-3xl font-bold text-green-600">
-              {quotes.filter(q => q.status === 'completed').length}
-            </p>
-          </Card>
-        </div>
-
-        {/* Filters */}
-        <Card className="p-6 mb-6">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                placeholder="Search by reference, name, or email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+          <TabsContent value="quotes" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid md:grid-cols-4 gap-6 mb-8">
+              <Card className="p-6">
+                <p className="text-sm text-muted-foreground mb-1">Total Quotes</p>
+                <p className="text-3xl font-bold">{quotes.length}</p>
+              </Card>
+              <Card className="p-6">
+                <p className="text-sm text-muted-foreground mb-1">New</p>
+                <p className="text-3xl font-bold text-accent">
+                  {quotes.filter(q => q.status === 'new').length}
+                </p>
+              </Card>
+              <Card className="p-6">
+                <p className="text-sm text-muted-foreground mb-1">In Progress</p>
+                <p className="text-3xl font-bold">
+                  {quotes.filter(q => ['contacted', 'quoted'].includes(q.status)).length}
+                </p>
+              </Card>
+              <Card className="p-6">
+                <p className="text-sm text-muted-foreground mb-1">Completed</p>
+                <p className="text-3xl font-bold text-green-600">
+                  {quotes.filter(q => q.status === 'completed').length}
+                </p>
+              </Card>
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="text-muted-foreground w-5 h-5" />
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter by status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="new">New</SelectItem>
-                  <SelectItem value="contacted">Contacted</SelectItem>
-                  <SelectItem value="quoted">Quoted</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="declined">Declined</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </Card>
 
-        {/* Quotes Table */}
-        <Card>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Reference</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Vehicle</TableHead>
-                  <TableHead>Tire Size</TableHead>
-                  <TableHead>Qty</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredQuotes.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
-                      {searchTerm || statusFilter !== 'all' 
-                        ? "No quotes match your filters" 
-                        : "No quotes yet. They'll appear here when customers submit requests."}
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredQuotes.map((quote) => (
-                    <TableRow key={quote.id}>
-                      <TableCell className="font-medium">
-                        {quote.reference_number}
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <p className="font-medium">{quote.customer_name}</p>
-                          <p className="text-sm text-muted-foreground">{quote.customer_email}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {quote.vehicle_year} {quote.vehicle_make} {quote.vehicle_model}
-                      </TableCell>
-                      <TableCell className="font-semibold">{quote.tire_size}</TableCell>
-                      <TableCell>{quote.quantity}</TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusBadgeVariant(quote.status)}>
-                          {quote.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {new Date(quote.created_at).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Link to={`/admin/quotes/${quote.id}`}>
-                          <Button variant="ghost" size="sm">
-                            <Eye className="w-4 h-4 mr-2" />
-                            View
-                          </Button>
-                        </Link>
-                      </TableCell>
+            {/* Filters */}
+            <Card className="p-6 mb-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    placeholder="Search by reference, name, or email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Filter className="text-muted-foreground w-5 h-5" />
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filter by status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="new">New</SelectItem>
+                      <SelectItem value="contacted">Contacted</SelectItem>
+                      <SelectItem value="quoted">Quoted</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
+                      <SelectItem value="declined">Declined</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </Card>
+
+            {/* Quotes Table */}
+            <Card>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Reference</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Vehicle</TableHead>
+                      <TableHead>Tire Size</TableHead>
+                      <TableHead>Qty</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredQuotes.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
+                          {searchTerm || statusFilter !== 'all' 
+                            ? "No quotes match your filters" 
+                            : "No quotes yet. They'll appear here when customers submit requests."}
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredQuotes.map((quote) => (
+                        <TableRow key={quote.id}>
+                          <TableCell className="font-medium">
+                            {quote.reference_number}
+                          </TableCell>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium">{quote.customer_name}</p>
+                              <p className="text-sm text-muted-foreground">{quote.customer_email}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {quote.vehicle_year} {quote.vehicle_make} {quote.vehicle_model}
+                          </TableCell>
+                          <TableCell className="font-semibold">{quote.tire_size}</TableCell>
+                          <TableCell>{quote.quantity}</TableCell>
+                          <TableCell>
+                            <Badge variant={getStatusBadgeVariant(quote.status)}>
+                              {quote.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            {new Date(quote.created_at).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Link to={`/admin/quotes/${quote.id}`}>
+                              <Button variant="ghost" size="sm">
+                                <Eye className="w-4 h-4 mr-2" />
+                                View
+                              </Button>
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="appointments" className="space-y-6">
+            <Card>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Date & Time</TableHead>
+                      <TableHead>Services</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {appointments.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="text-center py-12 text-muted-foreground">
+                          No appointments yet.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      appointments.map((appointment) => (
+                        <TableRow key={appointment.id}>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium">{appointment.customer_name}</p>
+                              <p className="text-sm text-muted-foreground">{appointment.customer_email}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium">
+                                {new Date(appointment.appointment_date).toLocaleDateString()}
+                              </p>
+                              <p className="text-sm text-muted-foreground">{appointment.appointment_time}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-wrap gap-1">
+                              {appointment.services.map((service, idx) => (
+                                <Badge key={idx} variant="outline">{service}</Badge>
+                              ))}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={appointment.status === 'approved' ? 'default' : appointment.status === 'declined' ? 'destructive' : 'secondary'}>
+                              {appointment.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {appointment.status === 'pending' && (
+                              <div className="flex gap-2 justify-end">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleAppointmentStatus(appointment.id, 'approved')}
+                                >
+                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                  Approve
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => handleAppointmentStatus(appointment.id, 'declined')}
+                                >
+                                  <XCircle className="w-4 h-4 mr-1" />
+                                  Decline
+                                </Button>
+                              </div>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
