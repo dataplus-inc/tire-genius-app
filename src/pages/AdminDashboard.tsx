@@ -7,10 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { LogOut, Search, Eye, Filter, CheckCircle, XCircle } from "lucide-react";
+import { format } from "date-fns";
 
 interface Quote {
   id: string;
@@ -46,6 +50,8 @@ interface Appointment {
   additional_notes: string | null;
   status: string;
   admin_notes: string | null;
+  suggested_date: string | null;
+  suggested_time: string | null;
   created_at: string;
 }
 
@@ -59,6 +65,10 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [declineDialogOpen, setDeclineDialogOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [suggestedDate, setSuggestedDate] = useState<Date>();
+  const [suggestedTime, setSuggestedTime] = useState("");
 
   useEffect(() => {
     checkAuth();
@@ -120,7 +130,13 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleAppointmentStatus = async (appointmentId: string, status: "approved" | "declined", adminNotes?: string) => {
+  const handleAppointmentStatus = async (
+    appointmentId: string, 
+    status: "approved" | "declined", 
+    adminNotes?: string,
+    suggestedDate?: string,
+    suggestedTime?: string
+  ) => {
     try {
       const appointment = appointments.find(a => a.id === appointmentId);
       if (!appointment) return;
@@ -130,6 +146,8 @@ const AdminDashboard = () => {
         .update({ 
           status, 
           admin_notes: adminNotes || null,
+          suggested_date: suggestedDate || null,
+          suggested_time: suggestedTime || null,
         })
         .eq('id', appointmentId);
 
@@ -150,6 +168,8 @@ const AdminDashboard = () => {
           services: appointment.services,
           status,
           adminNotes,
+          suggestedDate,
+          suggestedTime,
         },
       });
 
@@ -170,6 +190,28 @@ const AdminDashboard = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleDeclineClick = (appointment: Appointment) => {
+    setSelectedAppointment(appointment);
+    setDeclineDialogOpen(true);
+    setSuggestedDate(undefined);
+    setSuggestedTime("");
+  };
+
+  const handleDeclineSubmit = () => {
+    if (!selectedAppointment) return;
+
+    const formattedDate = suggestedDate ? format(suggestedDate, 'yyyy-MM-dd') : undefined;
+    handleAppointmentStatus(
+      selectedAppointment.id, 
+      'declined', 
+      undefined,
+      formattedDate,
+      suggestedTime || undefined
+    );
+    setDeclineDialogOpen(false);
+    setSelectedAppointment(null);
   };
 
   const fetchQuotes = async () => {
@@ -471,7 +513,7 @@ const AdminDashboard = () => {
                                 <Button
                                   size="sm"
                                   variant="destructive"
-                                  onClick={() => handleAppointmentStatus(appointment.id, 'declined')}
+                                  onClick={() => handleDeclineClick(appointment)}
                                 >
                                   <XCircle className="w-4 h-4 mr-1" />
                                   Decline
@@ -489,6 +531,56 @@ const AdminDashboard = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      <Dialog open={declineDialogOpen} onOpenChange={setDeclineDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Decline Appointment</DialogTitle>
+            <DialogDescription>
+              Optionally suggest an alternative date and time for the customer.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Suggested Date (Optional)</Label>
+              <Calendar
+                mode="single"
+                selected={suggestedDate}
+                onSelect={setSuggestedDate}
+                disabled={(date) => date < new Date()}
+                className="rounded-md border"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="suggested-time">Suggested Time (Optional)</Label>
+              <Select value={suggestedTime} onValueChange={setSuggestedTime}>
+                <SelectTrigger id="suggested-time">
+                  <SelectValue placeholder="Select a time" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="9:00 AM">9:00 AM</SelectItem>
+                  <SelectItem value="10:00 AM">10:00 AM</SelectItem>
+                  <SelectItem value="11:00 AM">11:00 AM</SelectItem>
+                  <SelectItem value="12:00 PM">12:00 PM</SelectItem>
+                  <SelectItem value="1:00 PM">1:00 PM</SelectItem>
+                  <SelectItem value="2:00 PM">2:00 PM</SelectItem>
+                  <SelectItem value="3:00 PM">3:00 PM</SelectItem>
+                  <SelectItem value="4:00 PM">4:00 PM</SelectItem>
+                  <SelectItem value="5:00 PM">5:00 PM</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeclineDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeclineSubmit}>
+              Decline Appointment
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

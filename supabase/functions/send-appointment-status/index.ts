@@ -17,6 +17,8 @@ interface AppointmentStatusRequest {
   services: string[];
   status: "approved" | "declined";
   adminNotes?: string;
+  suggestedDate?: string;
+  suggestedTime?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -33,6 +35,8 @@ const handler = async (req: Request): Promise<Response> => {
       services,
       status,
       adminNotes,
+      suggestedDate,
+      suggestedTime,
     }: AppointmentStatusRequest = await req.json();
 
     console.log(`Sending appointment ${status} email to customer`);
@@ -69,9 +73,19 @@ const handler = async (req: Request): Promise<Response> => {
           <p>${adminNotes}</p>
         ` : ''}
         
+        ${!isApproved && (suggestedDate || suggestedTime) ? `
+          <h2>Alternative Time Slot Available</h2>
+          <p>We'd like to suggest an alternative time that works better for us:</p>
+          ${suggestedDate ? `<p><strong>Suggested Date:</strong> ${new Date(suggestedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>` : ''}
+          ${suggestedTime ? `<p><strong>Suggested Time:</strong> ${suggestedTime}</p>` : ''}
+          <p>Please let us know if this alternative works for you, or feel free to suggest another time.</p>
+        ` : ''}
+        
         ${isApproved 
           ? `<p style="margin-top: 20px;">We look forward to seeing you! If you need to make any changes, please contact us as soon as possible.</p>` 
-          : `<p style="margin-top: 20px;">We apologize for any inconvenience. Please feel free to submit another request for a different date and time, or contact us directly for assistance.</p>`
+          : !suggestedDate && !suggestedTime 
+            ? `<p style="margin-top: 20px;">We apologize for any inconvenience. Please feel free to submit another request for a different date and time, or contact us directly for assistance.</p>`
+            : `<p style="margin-top: 20px;">We apologize for any inconvenience and hope the suggested alternative works for you.</p>`
         }
         
         <p>Best regards,<br>Wheels & Deals Team</p>

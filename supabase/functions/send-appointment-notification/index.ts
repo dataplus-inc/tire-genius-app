@@ -42,7 +42,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to admin
     const emailResponse = await resend.emails.send({
       from: "Wheels & Deals <onboarding@resend.dev>",
-      to: ["admin@wheelsdeals.com"], // Replace with your admin email
+      to: [customerEmail], // Send to customer's email for testing (Resend limitation)
       subject: "New Appointment Request",
       html: `
         <h1>New Appointment Request</h1>
