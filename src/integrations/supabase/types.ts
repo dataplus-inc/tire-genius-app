@@ -27,6 +27,8 @@ export type Database = {
           id: string
           services: string[]
           status: string
+          suggested_date: string | null
+          suggested_time: string | null
           updated_at: string
           vehicle_info: string | null
         }
@@ -42,6 +44,8 @@ export type Database = {
           id?: string
           services: string[]
           status?: string
+          suggested_date?: string | null
+          suggested_time?: string | null
           updated_at?: string
           vehicle_info?: string | null
         }
@@ -57,6 +61,8 @@ export type Database = {
           id?: string
           services?: string[]
           status?: string
+          suggested_date?: string | null
+          suggested_time?: string | null
           updated_at?: string
           vehicle_info?: string | null
         }
