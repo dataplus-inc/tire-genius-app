@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@4.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -41,36 +40,45 @@ const handler = async (req: Request): Promise<Response> => {
 
     // IMPORTANT: Resend test mode limitation - emails can only be sent to ward.dataplus@gmail.com
     // To send to other emails, verify a domain at https://resend.com/domains
-    const emailResponse = await resend.emails.send({
-      from: "Wheels & Deals <onboarding@resend.dev>",
-      to: ["ward.dataplus@gmail.com"], // Your verified email (Resend limitation in test mode)
-      subject: `New Appointment Request from ${customerName}`,
-      html: `
-        <h1>New Appointment Request</h1>
-        <h2>Customer Information</h2>
-        <p><strong>Name:</strong> ${customerName}</p>
-        <p><strong>Email:</strong> ${customerEmail}</p>
-        <p><strong>Phone:</strong> ${customerPhone}</p>
-        
-        <h2>Appointment Details</h2>
-        <p><strong>Date:</strong> ${appointmentDate}</p>
-        <p><strong>Time:</strong> ${appointmentTime}</p>
-        
-        <h2>Services Requested</h2>
-        <ul>
-          ${services.map(service => `<li>${service}</li>`).join('')}
-        </ul>
-        
-        ${vehicleInfo ? `<p><strong>Vehicle:</strong> ${vehicleInfo}</p>` : ''}
-        ${additionalNotes ? `<p><strong>Notes:</strong> ${additionalNotes}</p>` : ''}
-        
-        <p style="margin-top: 20px;">Please review and respond to this appointment request from the admin dashboard.</p>
-      `,
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: "Wheels & Deals <onboarding@resend.dev>",
+        to: ["ward.dataplus@gmail.com"], // Your verified email (Resend limitation in test mode)
+        subject: `New Appointment Request from ${customerName}`,
+        html: `
+          <h1>New Appointment Request</h1>
+          <h2>Customer Information</h2>
+          <p><strong>Name:</strong> ${customerName}</p>
+          <p><strong>Email:</strong> ${customerEmail}</p>
+          <p><strong>Phone:</strong> ${customerPhone}</p>
+          
+          <h2>Appointment Details</h2>
+          <p><strong>Date:</strong> ${appointmentDate}</p>
+          <p><strong>Time:</strong> ${appointmentTime}</p>
+          
+          <h2>Services Requested</h2>
+          <ul>
+            ${services.map(service => `<li>${service}</li>`).join('')}
+          </ul>
+          
+          ${vehicleInfo ? `<p><strong>Vehicle:</strong> ${vehicleInfo}</p>` : ''}
+          ${additionalNotes ? `<p><strong>Notes:</strong> ${additionalNotes}</p>` : ''}
+          
+          <p style="margin-top: 20px;">Please review and respond to this appointment request from the admin dashboard.</p>
+        `,
+      }),
     });
 
-    console.log("Appointment notification email sent successfully:", emailResponse);
+    const data = await emailResponse.json();
 
-    return new Response(JSON.stringify(emailResponse), {
+    console.log("Appointment notification email sent successfully:", data);
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
