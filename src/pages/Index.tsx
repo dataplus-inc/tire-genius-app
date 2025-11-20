@@ -339,14 +339,14 @@ const Index = () => {
               </div>
               <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg h-[400px]">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3050.2516754377917!2d-83.2624461!3d39.9448742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8838a2b21f377f93%3A0xffe5ce5c642519f7!2sWheels%20%26%20Deals%20Auto%20%26%20Services!5e0!3m2!1sen!2sus!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.9361474799685!2d-83.27064!3d39.94615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8838a2b21f377f93%3A0xffe5ce5c642519f7!2sWheels%20%26%20Deals%20Auto%20%26%20Services!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Wheels & Deals Location"
+                  title="Wheels & Deals Location - 227 E Main St, West Jefferson, OH 43162"
                 />
               </div>
               <div className="mt-6 p-6 bg-gray-50 rounded-lg">
