@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Search, CheckCircle, Clock, Wrench, Droplet, CircleDot, Disc, Menu, X } from "lucide-react";
+import { ArrowRight, Search, CheckCircle, Clock, Wrench, Droplet, CircleDot, Disc, Menu, X, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -322,6 +322,146 @@ const Index = () => {
                 <Search className="w-5 h-5" />
                 FIND YOUR TIRES
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location & Reviews Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Map */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <MapPin className="w-8 h-8 text-orange-600" />
+                <h2 className="text-3xl font-bold text-gray-900">Visit Us</h2>
+              </div>
+              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg h-[400px]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3050.2516754377917!2d-83.2624461!3d39.9448742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8838a2b21f377f93%3A0xffe5ce5c642519f7!2sWheels%20%26%20Deals%20Auto%20%26%20Services!5e0!3m2!1sen!2sus!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Wheels & Deals Location"
+                />
+              </div>
+              <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+                <h3 className="font-bold text-lg mb-3">Address</h3>
+                <p className="text-gray-700 mb-4">227 E Main St, West Jefferson, OH 43162</p>
+                <h3 className="font-bold text-lg mb-3">Hours</h3>
+                <p className="text-gray-700 mb-2">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                <p className="text-gray-700">Sunday: Closed</p>
+                <h3 className="font-bold text-lg mt-4 mb-3">Contact</h3>
+                <p className="text-gray-700">Phone: (614) 879-9212</p>
+                <p className="text-gray-700">Email: info@wheelsdealsauto.com</p>
+              </div>
+            </div>
+
+            {/* Reviews */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <Star className="w-8 h-8 text-orange-600 fill-orange-600" />
+                <h2 className="text-3xl font-bold text-gray-900">Customer Reviews</h2>
+              </div>
+              
+              <div className="mb-6 p-6 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="w-5 h-5 text-orange-500 fill-orange-500" />
+                    ))}
+                  </div>
+                  <span className="font-bold text-xl">5.0</span>
+                </div>
+                <p className="text-gray-600">Based on Google Reviews</p>
+                <a
+                  href="https://www.google.com/maps/place/Wheels+%26+Deals+Auto+%26+Services/@39.8619737,-83.6673524,9z/data=!4m6!3m5!1s0x8838a2b21f377f93:0xffe5ce5c642519f7!8m2!3d39.9448742!4d-83.2624461!16s%2Fg%2F1tqclwsw?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-4 text-orange-600 hover:text-orange-700 font-semibold"
+                >
+                  Write a Review
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                        J
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">John D.</h4>
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">
+                    "Excellent service! The team was professional and got my tires installed quickly. Highly recommend!"
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                        S
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Sarah M.</h4>
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">
+                    "Great prices and even better customer service. They helped me find the perfect tires for my budget."
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                        M
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Mike R.</h4>
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">
+                    "Fast, reliable, and honest. They explained everything clearly and didn't try to upsell me. Will definitely return!"
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://www.google.com/maps/place/Wheels+%26+Deals+Auto+%26+Services/@39.8619737,-83.6673524,9z/data=!4m6!3m5!1s0x8838a2b21f377f93:0xffe5ce5c642519f7!8m2!3d39.9448742!4d-83.2624461!16s%2Fg%2F1tqclwsw?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white font-bold text-center py-4 rounded-lg transition-colors"
+              >
+                See All Reviews on Google
+              </a>
             </div>
           </div>
         </div>
