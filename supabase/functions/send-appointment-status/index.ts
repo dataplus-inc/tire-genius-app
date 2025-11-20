@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -8,17 +9,30 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-interface AppointmentStatusRequest {
-  customerName: string;
-  customerEmail: string;
-  appointmentDate: string;
-  appointmentTime: string;
-  services: string[];
-  status: "approved" | "declined";
-  adminNotes?: string;
-  suggestedDate?: string;
-  suggestedTime?: string;
-}
+// HTML escape utility to prevent XSS
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+};
+
+// Validation schema
+const appointmentStatusSchema = z.object({
+  customerName: z.string().trim().min(1).max(100),
+  customerEmail: z.string().trim().email().max(255),
+  appointmentDate: z.string().trim().min(1).max(50),
+  appointmentTime: z.string().trim().min(1).max(50),
+  services: z.array(z.string().trim().min(1).max(100)).min(1).max(20),
+  status: z.enum(["approved", "declined"]),
+  adminNotes: z.string().trim().max(1000).optional(),
+  suggestedDate: z.string().trim().max(50).optional(),
+  suggestedTime: z.string().trim().max(50).optional(),
+});
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -26,6 +40,21 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const rawData = await req.json();
+    
+    // Validate input
+    const validationResult = appointmentStatusSchema.safeParse(rawData);
+    if (!validationResult.success) {
+      console.error("Validation failed:", validationResult.error);
+      return new Response(
+        JSON.stringify({ error: "Invalid input data", details: validationResult.error.issues }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     const {
       customerName,
       customerEmail,
@@ -36,7 +65,7 @@ const handler = async (req: Request): Promise<Response> => {
       adminNotes,
       suggestedDate,
       suggestedTime,
-    }: AppointmentStatusRequest = await req.json();
+    } = validationResult.data;
 
     console.log(`Sending appointment ${status} email to customer`);
 
@@ -57,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
         subject: subject,
         html: `
           <h1>${isApproved ? "Appointment Confirmed!" : "Appointment Update"}</h1>
-          <p>Dear ${customerName},</p>
+          <p>Dear ${escapeHtml(customerName)},</p>
           
           ${isApproved 
             ? `<p>Great news! Your appointment has been <strong>confirmed</strong>.</p>` 
@@ -65,24 +94,24 @@ const handler = async (req: Request): Promise<Response> => {
           }
           
           <h2>Appointment Details</h2>
-          <p><strong>Date:</strong> ${appointmentDate}</p>
-          <p><strong>Time:</strong> ${appointmentTime}</p>
+          <p><strong>Date:</strong> ${escapeHtml(appointmentDate)}</p>
+          <p><strong>Time:</strong> ${escapeHtml(appointmentTime)}</p>
           
           <h2>Services</h2>
           <ul>
-            ${services.map(service => `<li>${service}</li>`).join('')}
+            ${services.map(service => `<li>${escapeHtml(service)}</li>`).join('')}
           </ul>
           
           ${adminNotes ? `
             <h2>Additional Information</h2>
-            <p>${adminNotes}</p>
+            <p>${escapeHtml(adminNotes)}</p>
           ` : ''}
           
           ${!isApproved && (suggestedDate || suggestedTime) ? `
             <h2>Alternative Time Slot Available</h2>
             <p>We'd like to suggest an alternative time that works better for us:</p>
-            ${suggestedDate ? `<p><strong>Suggested Date:</strong> ${new Date(suggestedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>` : ''}
-            ${suggestedTime ? `<p><strong>Suggested Time:</strong> ${suggestedTime}</p>` : ''}
+            ${suggestedDate ? `<p><strong>Suggested Date:</strong> ${escapeHtml(new Date(suggestedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }))}</p>` : ''}
+            ${suggestedTime ? `<p><strong>Suggested Time:</strong> ${escapeHtml(suggestedTime)}</p>` : ''}
             <p>Please let us know if this alternative works for you, or feel free to suggest another time.</p>
           ` : ''}
           

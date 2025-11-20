@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -8,20 +9,33 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-interface QuoteEmailRequest {
-  customerName: string;
-  customerEmail: string;
-  referenceNumber: string;
-  vehicleYear: number;
-  vehicleMake: string;
-  vehicleModel: string;
-  vehicleTrim: string;
-  tireSize: string;
-  quantity: number;
-  installation?: boolean;
-  wheelAlignment?: boolean;
-  oilChange?: boolean;
-}
+// HTML escape utility to prevent XSS
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+};
+
+// Validation schema
+const quoteEmailSchema = z.object({
+  customerName: z.string().trim().min(1).max(100),
+  customerEmail: z.string().trim().email().max(255),
+  referenceNumber: z.string().trim().min(1).max(50),
+  vehicleYear: z.number().int().min(1900).max(2100),
+  vehicleMake: z.string().trim().min(1).max(50),
+  vehicleModel: z.string().trim().min(1).max(50),
+  vehicleTrim: z.string().trim().min(1).max(50),
+  tireSize: z.string().trim().min(1).max(50),
+  quantity: z.number().int().min(1).max(10),
+  installation: z.boolean().optional(),
+  wheelAlignment: z.boolean().optional(),
+  oilChange: z.boolean().optional(),
+});
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
@@ -30,6 +44,21 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const rawData = await req.json();
+    
+    // Validate input
+    const validationResult = quoteEmailSchema.safeParse(rawData);
+    if (!validationResult.success) {
+      console.error("Validation failed:", validationResult.error);
+      return new Response(
+        JSON.stringify({ error: "Invalid input data", details: validationResult.error.issues }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     const {
       customerName,
       customerEmail,
@@ -43,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
       installation,
       wheelAlignment,
       oilChange,
-    }: QuoteEmailRequest = await req.json();
+    } = validationResult.data;
 
     console.log("Sending quote confirmation email to:", customerEmail);
 
@@ -56,7 +85,7 @@ const handler = async (req: Request): Promise<Response> => {
     const servicesHtml = services.length > 0
       ? `<div class="detail-row">
           <span class="detail-label">Requested Services:</span>
-          <span class="detail-value">${services.join(", ")}</span>
+          <span class="detail-value">${services.map(s => escapeHtml(s)).join(", ")}</span>
         </div>`
       : "";
 
@@ -102,12 +131,12 @@ const handler = async (req: Request): Promise<Response> => {
                 </div>
                 
                 <div class="content">
-                  <h2>Thank you, ${customerName}!</h2>
+                  <h2>Thank you, ${escapeHtml(customerName)}!</h2>
                   <p>We've received your tire quote request and our team is already reviewing it.</p>
                   
                   <div class="reference">
                     <p style="margin: 0; color: #6c757d; font-size: 14px;">Your Reference Number</p>
-                    <div class="reference-number">${referenceNumber}</div>
+                    <div class="reference-number">${escapeHtml(referenceNumber)}</div>
                     <p style="margin: 0; color: #6c757d; font-size: 12px;">Save this number for your records</p>
                   </div>
                   
@@ -115,15 +144,15 @@ const handler = async (req: Request): Promise<Response> => {
                     <h3 style="margin-top: 0; color: #2d2d2d;">Quote Details</h3>
                     <div class="detail-row">
                       <span class="detail-label">Vehicle:</span>
-                      <span class="detail-value">${vehicleYear} ${vehicleMake} ${vehicleModel}</span>
+                      <span class="detail-value">${vehicleYear} ${escapeHtml(vehicleMake)} ${escapeHtml(vehicleModel)}</span>
                     </div>
                     <div class="detail-row">
                       <span class="detail-label">Trim:</span>
-                      <span class="detail-value">${vehicleTrim}</span>
+                      <span class="detail-value">${escapeHtml(vehicleTrim)}</span>
                     </div>
                     <div class="detail-row">
                       <span class="detail-label">Tire Size:</span>
-                      <span class="detail-value">${tireSize}</span>
+                      <span class="detail-value">${escapeHtml(tireSize)}</span>
                     </div>
                     <div class="detail-row">
                       <span class="detail-label">Quantity:</span>
