@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@3.2.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -9,22 +10,35 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-interface SendQuoteRequest {
-  customerName: string;
-  customerEmail: string;
-  referenceNumber: string;
-  vehicleYear: number;
-  vehicleMake: string;
-  vehicleModel: string;
-  vehicleTrim: string;
-  tireSize: string;
-  quantity: number;
-  installation: boolean;
-  wheelAlignment: boolean;
-  oilChange: boolean;
-  quoteAmount: number;
-  quoteNotes?: string;
-}
+// HTML escape utility to prevent XSS
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+};
+
+// Validation schema
+const sendQuoteSchema = z.object({
+  customerName: z.string().trim().min(1).max(100),
+  customerEmail: z.string().trim().email().max(255),
+  referenceNumber: z.string().trim().min(1).max(50),
+  vehicleYear: z.number().int().min(1900).max(2100),
+  vehicleMake: z.string().trim().min(1).max(50),
+  vehicleModel: z.string().trim().min(1).max(50),
+  vehicleTrim: z.string().trim().min(1).max(50),
+  tireSize: z.string().trim().min(1).max(50),
+  quantity: z.number().int().min(1).max(10),
+  installation: z.boolean(),
+  wheelAlignment: z.boolean(),
+  oilChange: z.boolean(),
+  quoteAmount: z.number().min(0).max(1000000),
+  quoteNotes: z.string().trim().max(1000).optional(),
+});
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
@@ -33,6 +47,21 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    const rawData = await req.json();
+    
+    // Validate input
+    const validationResult = sendQuoteSchema.safeParse(rawData);
+    if (!validationResult.success) {
+      console.error("Validation failed:", validationResult.error);
+      return new Response(
+        JSON.stringify({ error: "Invalid input data", details: validationResult.error.issues }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     const {
       customerName,
       customerEmail,
@@ -48,7 +77,7 @@ const handler = async (req: Request): Promise<Response> => {
       oilChange,
       quoteAmount,
       quoteNotes,
-    }: SendQuoteRequest = await req.json();
+    } = validationResult.data;
 
     console.log("Sending quote to customer:", customerEmail);
 
@@ -61,14 +90,14 @@ const handler = async (req: Request): Promise<Response> => {
     const servicesHtml = services.length > 0
       ? `<div class="detail-row">
           <span class="detail-label">Services:</span>
-          <span class="detail-value">${services.join(", ")}</span>
+          <span class="detail-value">${services.map(s => escapeHtml(s)).join(", ")}</span>
         </div>`
       : "";
 
     const notesHtml = quoteNotes
       ? `<div class="notes">
           <h3>Additional Notes</h3>
-          <p>${quoteNotes}</p>
+          <p>${escapeHtml(quoteNotes)}</p>
         </div>`
       : "";
 
@@ -108,24 +137,24 @@ const handler = async (req: Request): Promise<Response> => {
               </div>
               
               <div class="content">
-                <h2>Hello ${customerName},</h2>
+                <h2>Hello ${escapeHtml(customerName)},</h2>
                 <p>Great news! We've prepared your custom quote for your tire needs.</p>
                 
                 <div class="price-banner">
                   <p style="margin: 0; font-size: 16px; opacity: 0.9;">TOTAL QUOTE</p>
                   <div class="price">$${quoteAmount.toFixed(2)}</div>
-                  <p style="margin: 0; font-size: 14px; opacity: 0.9;">Reference: ${referenceNumber}</p>
+                  <p style="margin: 0; font-size: 14px; opacity: 0.9;">Reference: ${escapeHtml(referenceNumber)}</p>
                 </div>
                 
                 <div class="details">
                   <h3 style="margin-top: 0; color: #2d2d2d;">Quote Details</h3>
                   <div class="detail-row">
                     <span class="detail-label">Vehicle:</span>
-                    <span class="detail-value">${vehicleYear} ${vehicleMake} ${vehicleModel} ${vehicleTrim}</span>
+                    <span class="detail-value">${vehicleYear} ${escapeHtml(vehicleMake)} ${escapeHtml(vehicleModel)} ${escapeHtml(vehicleTrim)}</span>
                   </div>
                   <div class="detail-row">
                     <span class="detail-label">Tire Size:</span>
-                    <span class="detail-value">${tireSize}</span>
+                    <span class="detail-value">${escapeHtml(tireSize)}</span>
                   </div>
                   <div class="detail-row">
                     <span class="detail-label">Quantity:</span>
