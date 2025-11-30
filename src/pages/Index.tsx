@@ -41,25 +41,25 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm">
+      <nav className="border-b border-border bg-card sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">W&D</span>
+            <div className="w-14 h-14 bg-gradient-accent rounded-full flex items-center justify-center">
+              <span className="text-accent-foreground font-bold text-xl">W&D</span>
             </div>
             <div className="hidden sm:block">
-              <div className="text-xl font-bold text-gray-900">Wheels & Deals</div>
-              <div className="text-xs text-gray-600">AUTO & SERVICES</div>
+              <div className="text-xl font-bold text-foreground">Wheels & Deals</div>
+              <div className="text-xs text-muted-foreground">AUTO & SERVICES</div>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            <button onClick={() => scrollToSection('finder')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">TIRES</button>
-            <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">SERVICES</button>
-            <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">HOW IT WORKS</button>
-            <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">CONTACT</button>
-            <Link to="/book-appointment" className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors">BOOK APPOINTMENT</Link>
+            <button onClick={() => scrollToSection('finder')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors">TIRES</button>
+            <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors">SERVICES</button>
+            <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors">HOW IT WORKS</button>
+            <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors">CONTACT</button>
+            <Link to="/book-appointment" className="text-sm font-semibold text-foreground hover:text-accent transition-colors">BOOK APPOINTMENT</Link>
             <Link to="/auth" className="text-sm font-semibold hover:text-accent transition-colors">ADMIN</Link>
           </div>
           <button 
@@ -71,23 +71,23 @@ const Index = () => {
         </div>
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
+          <div className="md:hidden border-t border-border bg-card">
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              <button onClick={() => scrollToSection('finder')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">TIRES</button>
-              <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">SERVICES</button>
-              <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">HOW IT WORKS</button>
-              <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left">CONTACT</button>
+              <button onClick={() => scrollToSection('finder')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left">TIRES</button>
+              <button onClick={() => scrollToSection('services')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left">SERVICES</button>
+              <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left">HOW IT WORKS</button>
+              <button onClick={() => scrollToSection('contact')} className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left">CONTACT</button>
               <Link 
                 to="/book-appointment"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left"
+                className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left"
               >
                 BOOK APPOINTMENT
               </Link>
               <Link 
               to="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors text-left"
+              className="text-sm font-semibold text-foreground hover:text-accent transition-colors text-left"
               >
               ADMIN
             </Link>
@@ -97,9 +97,9 @@ const Index = () => {
       </nav>
 
       {/* Promo Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 text-white py-4">
+      <section className="relative overflow-hidden bg-gradient-promo text-accent-foreground py-4">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground to-transparent animate-pulse"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
@@ -107,7 +107,7 @@ const Index = () => {
             <span className="text-2xl md:text-3xl animate-bounce">🔥</span>
             
             <div>
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-orange-100 mb-1">
+              <p className="text-xs md:text-sm font-semibold uppercase tracking-wider opacity-90 mb-1">
                 Limited Time Offer
               </p>
               <p className="text-base md:text-xl font-bold">
@@ -121,32 +121,32 @@ const Index = () => {
           <div className="mt-3 flex justify-center">
             <button 
               onClick={() => scrollToSection('finder')}
-              className="bg-white text-red-600 px-6 py-2 rounded-full font-bold text-sm md:text-base hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-background text-accent px-6 py-2 rounded-full font-bold text-sm md:text-base hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Get Your Free Quote →
             </button>
           </div>
         </div>
         
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-300 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
       </section>
 
       {/* Hero Section */}
-      <section id="finder" className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+      <section id="finder" className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&h=900&fit=crop')] bg-cover bg-center opacity-20"></div>
         <div className="relative container mx-auto px-4 py-20 md:py-28">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-foreground mb-6 leading-tight">
               FIND YOUR PERFECT TIRES IN{" "}
-              <span className="text-orange-500">SECONDS</span>
+              <span className="text-accent">SECONDS</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/95 mb-8 leading-relaxed font-medium">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed font-medium">
               Expert recommendations • Exact specifications • Fast quotes
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
             <Link
               to="/finder"
-              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-8 py-6 rounded-lg transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-accent hover:opacity-90 text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg transition-colors"
             >
               <Search className="mr-2" />
               FIND YOUR TIRES
@@ -158,39 +158,39 @@ const Index = () => {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-16 bg-white">
+      <section id="how-it-works" className="py-16 bg-card">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold mb-3 uppercase text-gray-900">How It Works</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold mb-3 uppercase text-foreground">How It Works</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Getting the right tires for your vehicle has never been easier
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-white rounded-lg p-8 shadow-lg border border-gray-200 hover:border-orange-500 transition-all duration-300">
-              <div className="w-14 h-14 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold text-2xl mb-4">
+            <div className="bg-background rounded-lg p-8 shadow-lg border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 1
               </div>
-              <h3 className="text-xl font-bold mb-3 uppercase text-gray-900">Select Your Vehicle</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold mb-3 uppercase text-foreground">Select Your Vehicle</h3>
+              <p className="text-muted-foreground">
                 Choose your vehicle's year, make, model, and trim to get exact tire specifications.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-8 shadow-lg border border-gray-200 hover:border-orange-500 transition-all duration-300">
-              <div className="w-14 h-14 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold text-2xl mb-4">
+            <div className="bg-background rounded-lg p-8 shadow-lg border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 2
               </div>
-              <h3 className="text-xl font-bold mb-3 uppercase text-gray-900">View Tire Options</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold mb-3 uppercase text-foreground">View Tire Options</h3>
+              <p className="text-muted-foreground">
                 See your tire size with detailed breakdown and browse recommended tire options.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-8 shadow-lg border border-gray-200 hover:border-orange-500 transition-all duration-300">
-              <div className="w-14 h-14 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold text-2xl mb-4">
+            <div className="bg-background rounded-lg p-8 shadow-lg border border-border hover:border-accent transition-all duration-300">
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-2xl mb-4">
                 3
               </div>
-              <h3 className="text-xl font-bold mb-3 uppercase text-gray-900">Request a Quote</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold mb-3 uppercase text-foreground">Request a Quote</h3>
+              <p className="text-muted-foreground">
                 Submit your info and get a personalized quote within 2 business hours.
               </p>
             </div>
@@ -199,13 +199,13 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-gradient-to-b from-white to-gray-100">
+      <section id="services" className="py-20 bg-gradient-to-b from-card to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-4 uppercase text-gray-900">
+            <h2 className="text-4xl md:text-6xl font-bold mb-4 uppercase text-foreground">
               Our Expert Services
             </h2>
-            <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto">
+            <p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
               Professional automotive services you can trust. Quality workmanship, competitive pricing, and exceptional customer care.
             </p>
           </div>
@@ -216,7 +216,7 @@ const Index = () => {
               return (
                 <div
                   key={index}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200 hover:border-orange-500 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+                  className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border hover:border-accent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <img
@@ -226,16 +226,16 @@ const Index = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     
-                    <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center shadow-lg">
-                      <Icon className="w-6 h-6 text-white" />
+                    <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-accent flex items-center justify-center shadow-lg">
+                      <Icon className="w-6 h-6 text-accent-foreground" />
                     </div>
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3 uppercase group-hover:text-orange-600 transition-colors text-gray-900">
+                    <h3 className="text-xl font-bold mb-3 uppercase group-hover:text-accent transition-colors text-foreground">
                       {service.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {service.description}
                     </p>
                   </div>
@@ -245,23 +245,23 @@ const Index = () => {
           </div>
 
           <div className="text-center mt-16">
-            <div className="inline-block bg-white rounded-2xl p-8 shadow-xl border-2 border-orange-500 max-w-2xl">
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 uppercase text-gray-900">
+            <div className="inline-block bg-card rounded-2xl p-8 shadow-xl border-2 border-accent max-w-2xl">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 uppercase text-foreground">
                 Need Service Today?
               </h3>
-              <p className="text-gray-600 mb-6 text-lg">
+              <p className="text-muted-foreground mb-6 text-lg">
                 Call us or visit our shop for fast, professional service
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="tel:6148799212"
-                  className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
+                  className="bg-accent hover:opacity-90 text-accent-foreground font-bold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
                 >
                   📞 Call (614) 879-9212
                 </a>
                 <button
                   onClick={() => scrollToSection('contact')}
-                  className="bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 px-8 rounded-full border-2 border-orange-500 transition-all duration-300 hover:scale-105"
+                  className="bg-background hover:bg-secondary text-foreground font-bold py-3 px-8 rounded-full border-2 border-accent transition-all duration-300 hover:scale-105"
                 >
                   Visit Us
                 </button>
@@ -272,53 +272,53 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 uppercase text-gray-900">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 uppercase text-foreground">
                 Why Choose Wheels & Deals?
               </h2>
               <div className="space-y-5">
                 <div className="flex gap-4">
-                  <CheckCircle className="w-7 h-7 text-orange-600 flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold mb-1 text-lg uppercase text-gray-900">Exact Specifications</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold mb-1 text-lg uppercase text-foreground">Exact Specifications</h3>
+                    <p className="text-muted-foreground">
                       Get tire sizes that perfectly match your vehicle's requirements
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <CheckCircle className="w-7 h-7 text-orange-600 flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold mb-1 text-lg uppercase text-gray-900">Expert Recommendations</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold mb-1 text-lg uppercase text-foreground">Expert Recommendations</h3>
+                    <p className="text-muted-foreground">
                       Curated tire options across all price ranges and seasons
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <Clock className="w-7 h-7 text-orange-600 flex-shrink-0 mt-1" />
+                  <Clock className="w-7 h-7 text-accent flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold mb-1 text-lg uppercase text-gray-900">Fast Response</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold mb-1 text-lg uppercase text-foreground">Fast Response</h3>
+                    <p className="text-muted-foreground">
                       Get your personalized quote within 2 business hours
                     </p>
                   </div>
                 </div>
               </div>
-              <button className="mt-8 bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-8 py-3 rounded-lg transition-colors flex items-center gap-2">
+              <button className="mt-8 bg-accent hover:opacity-90 text-accent-foreground font-bold text-lg px-8 py-3 rounded-lg transition-colors flex items-center gap-2">
                 GET STARTED NOW
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
-            <div className="bg-white rounded-xl p-8 shadow-xl border-2 border-orange-500">
-              <h3 className="text-3xl font-bold mb-4 uppercase text-gray-900">Quick Quote Request</h3>
-              <p className="text-gray-600 mb-6 text-lg">
+            <div className="bg-card rounded-xl p-8 shadow-xl border-2 border-accent">
+              <h3 className="text-3xl font-bold mb-4 uppercase text-foreground">Quick Quote Request</h3>
+              <p className="text-muted-foreground mb-6 text-lg">
                 Start by selecting your vehicle to find the perfect tires
               </p>
-              <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg py-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+              <button className="w-full bg-accent hover:opacity-90 text-accent-foreground font-bold text-lg py-4 rounded-lg transition-colors flex items-center justify-center gap-2">
                 <Search className="w-5 h-5" />
                 FIND YOUR TIRES
               </button>
@@ -328,16 +328,16 @@ const Index = () => {
       </section>
 
       {/* Location & Reviews Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Map */}
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <MapPin className="w-8 h-8 text-orange-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Visit Us</h2>
+                <MapPin className="w-8 h-8 text-accent" />
+                <h2 className="text-3xl font-bold text-foreground">Visit Us</h2>
               </div>
-              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg h-[400px]">
+              <div className="bg-secondary rounded-lg overflow-hidden shadow-lg h-[400px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.9361474799685!2d-83.27064!3d39.94615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8838a2b21f377f93%3A0xffe5ce5c642519f7!2sWheels%20%26%20Deals%20Auto%20%26%20Services!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
                   width="100%"
@@ -349,40 +349,40 @@ const Index = () => {
                   title="Wheels & Deals Location - 227 E Main St, West Jefferson, OH 43162"
                 />
               </div>
-              <div className="mt-6 p-6 bg-gray-50 rounded-lg">
-                <h3 className="font-bold text-lg mb-3">Address</h3>
-                <p className="text-gray-700 mb-4">227 E Main St, West Jefferson, OH 43162</p>
-                <h3 className="font-bold text-lg mb-3">Hours</h3>
-                <p className="text-gray-700 mb-2">Monday - Saturday: 9:00 AM - 7:00 PM</p>
-                <p className="text-gray-700">Sunday: Closed</p>
-                <h3 className="font-bold text-lg mt-4 mb-3">Contact</h3>
-                <p className="text-gray-700">Phone: (614) 879-9212</p>
-                <p className="text-gray-700">Email: info@wheelsdealsauto.com</p>
+              <div className="mt-6 p-6 bg-secondary rounded-lg">
+                <h3 className="font-bold text-lg mb-3 text-foreground">Address</h3>
+                <p className="text-muted-foreground mb-4">227 E Main St, West Jefferson, OH 43162</p>
+                <h3 className="font-bold text-lg mb-3 text-foreground">Hours</h3>
+                <p className="text-muted-foreground mb-2">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                <p className="text-muted-foreground">Sunday: Closed</p>
+                <h3 className="font-bold text-lg mt-4 mb-3 text-foreground">Contact</h3>
+                <p className="text-muted-foreground">Phone: (614) 879-9212</p>
+                <p className="text-muted-foreground">Email: info@wheelsdealsauto.com</p>
               </div>
             </div>
 
             {/* Reviews */}
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <Star className="w-8 h-8 text-orange-600 fill-orange-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Customer Reviews</h2>
+                <Star className="w-8 h-8 text-accent fill-accent" />
+                <h2 className="text-3xl font-bold text-foreground">Customer Reviews</h2>
               </div>
               
-              <div className="mb-6 p-6 bg-orange-50 rounded-lg border border-orange-200">
+              <div className="mb-6 p-6 bg-accent/10 rounded-lg border border-accent/20">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-5 h-5 text-orange-500 fill-orange-500" />
+                      <Star key={star} className="w-5 h-5 text-accent fill-accent" />
                     ))}
                   </div>
-                  <span className="font-bold text-xl">5.0</span>
+                  <span className="font-bold text-xl text-foreground">5.0</span>
                 </div>
-                <p className="text-gray-600">Based on Google Reviews</p>
+                <p className="text-muted-foreground">Based on Google Reviews</p>
                 <a
                   href="https://www.google.com/maps/place/Wheels+%26+Deals+Auto+%26+Services/@39.8619737,-83.6673524,9z/data=!4m6!3m5!1s0x8838a2b21f377f93:0xffe5ce5c642519f7!8m2!3d39.9448742!4d-83.2624461!16s%2Fg%2F1tqclwsw?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 text-orange-600 hover:text-orange-700 font-semibold"
+                  className="inline-flex items-center gap-2 mt-4 text-accent hover:opacity-80 font-semibold"
                 >
                   Write a Review
                   <ArrowRight className="w-4 h-4" />
@@ -390,65 +390,65 @@ const Index = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <div className="p-6 bg-background border border-border rounded-lg shadow-sm">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-accent-foreground font-bold">
                         J
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900">John D.</h4>
+                        <h4 className="font-bold text-foreground">John D.</h4>
                         <div className="flex items-center gap-1">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                            <Star key={star} className="w-4 h-4 text-accent fill-accent" />
                           ))}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-muted-foreground">
                     "Excellent service! The team was professional and got my tires installed quickly. Highly recommend!"
                   </p>
                 </div>
 
-                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <div className="p-6 bg-background border border-border rounded-lg shadow-sm">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-accent-foreground font-bold">
                         S
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900">Sarah M.</h4>
+                        <h4 className="font-bold text-foreground">Sarah M.</h4>
                         <div className="flex items-center gap-1">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                            <Star key={star} className="w-4 h-4 text-accent fill-accent" />
                           ))}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-muted-foreground">
                     "Great prices and even better customer service. They helped me find the perfect tires for my budget."
                   </p>
                 </div>
 
-                <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <div className="p-6 bg-background border border-border rounded-lg shadow-sm">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-accent-foreground font-bold">
                         M
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900">Mike R.</h4>
+                        <h4 className="font-bold text-foreground">Mike R.</h4>
                         <div className="flex items-center gap-1">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className="w-4 h-4 text-orange-500 fill-orange-500" />
+                            <Star key={star} className="w-4 h-4 text-accent fill-accent" />
                           ))}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-muted-foreground">
                     "Fast, reliable, and honest. They explained everything clearly and didn't try to upsell me. Will definitely return!"
                   </p>
                 </div>
@@ -458,7 +458,7 @@ const Index = () => {
                 href="https://www.google.com/maps/place/Wheels+%26+Deals+Auto+%26+Services/@39.8619737,-83.6673524,9z/data=!4m6!3m5!1s0x8838a2b21f377f93:0xffe5ce5c642519f7!8m2!3d39.9448742!4d-83.2624461!16s%2Fg%2F1tqclwsw?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white font-bold text-center py-4 rounded-lg transition-colors"
+                className="block w-full mt-6 bg-accent hover:opacity-90 text-accent-foreground font-bold text-center py-4 rounded-lg transition-colors"
               >
                 See All Reviews on Google
               </a>
@@ -468,26 +468,26 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12">
+      <footer id="contact" className="bg-gradient-hero text-foreground py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">W&D</span>
+                <div className="w-14 h-14 bg-gradient-accent rounded-full flex items-center justify-center">
+                  <span className="text-accent-foreground font-bold text-xl">W&D</span>
                 </div>
                 <div>
                   <div className="text-xl font-bold">Wheels & Deals</div>
-                  <div className="text-xs text-gray-400">AUTO & SERVICES</div>
+                  <div className="text-xs text-muted-foreground">AUTO & SERVICES</div>
                 </div>
               </div>
-              <p className="text-gray-400">
+              <p className="text-muted-foreground">
                 Your trusted partner for professional tire services and expert recommendations.
               </p>
             </div>
             <div>
               <h3 className="font-bold mb-4 uppercase text-lg">Contact</h3>
-              <div className="space-y-2 text-gray-400">
+              <div className="space-y-2 text-muted-foreground">
                 <p>Email: info@wheelsdealsauto.com</p>
                 <p>Phone: (614) 879-9212</p>
                 <p>Address: 227 E Main St, West Jefferson, OH 43162</p>
@@ -497,22 +497,22 @@ const Index = () => {
             <div>
               <h3 className="font-bold mb-4 uppercase text-lg">Quick Links</h3>
               <div className="space-y-2">
-                <button onClick={() => scrollToSection('finder')} className="block text-gray-400 hover:text-orange-500 transition-colors font-semibold text-left">
+                <button onClick={() => scrollToSection('finder')} className="block text-muted-foreground hover:text-accent transition-colors font-semibold text-left">
                   Tire Finder
                 </button>
-                <button onClick={() => scrollToSection('services')} className="block text-gray-400 hover:text-orange-500 transition-colors font-semibold text-left">
+                <button onClick={() => scrollToSection('services')} className="block text-muted-foreground hover:text-accent transition-colors font-semibold text-left">
                   Services
                 </button>
-                <button onClick={() => scrollToSection('how-it-works')} className="block text-gray-400 hover:text-orange-500 transition-colors font-semibold text-left">
+                <button onClick={() => scrollToSection('how-it-works')} className="block text-muted-foreground hover:text-accent transition-colors font-semibold text-left">
                   How It Works
                 </button>
-                <button onClick={() => scrollToSection('contact')} className="block text-gray-400 hover:text-orange-500 transition-colors font-semibold text-left">
+                <button onClick={() => scrollToSection('contact')} className="block text-muted-foreground hover:text-accent transition-colors font-semibold text-left">
                   Contact Us
                 </button>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500">
+          <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
             <p>&copy; 2025 Wheels & Deals Auto & Services. All rights reserved.</p>
           </div>
         </div>
