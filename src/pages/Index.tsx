@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Search, CheckCircle, Clock, Wrench, Droplet, CircleDot, Disc, Menu, X, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/wheels-deals-logo.png";
 
 const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -46,9 +47,7 @@ const Index = () => {
       <nav className="border-b border-border bg-card sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-14 h-14 bg-gradient-accent rounded-full flex items-center justify-center">
-              <span className="text-accent-foreground font-bold text-xl">W&D</span>
-            </div>
+            <img src={logo} alt="Wheels & Deals Logo" className="h-16 w-auto object-contain" />
             <div className="hidden sm:block">
               <div className="text-xl font-bold text-foreground">Wheels & Deals</div>
               <div className="text-xs text-muted-foreground">AUTO & SERVICES</div>
